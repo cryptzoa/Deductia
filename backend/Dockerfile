@@ -1,4 +1,4 @@
-FROM php:8.3-apache
+FROM php:8.3-cli
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -30,21 +30,14 @@ COPY . /var/www/html
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Change current user to www
+# Change current user to www (optional for CLI but good practice if we switched to FPM later)
+# For simple CLI serve, running as root within container is often default and fine for this context, 
+# but let's keep permission fix for storage
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Manually disable conflicting MPMs by removing all mpm symlinks first
-RUN rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf \
-    && a2enmod mpm_prefork rewrite
-
-# Update Apache config to point to public folder
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
-
-# Expose port 8080 (Railway expects this)
+# Expose port (Documentation only, Railway overrides this)
 EXPOSE 8080
-RUN sed -i 's/80/8080/g' /etc/apache2/ports.conf /etc/apache2/sites-enabled/000-default.conf
 
-# Start Apache
-CMD ["apache2-foreground"]
+# Start Laravel Server
+# Using shell form to allow variable expansion of $PORT
+CMD php artisan optimize && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}
