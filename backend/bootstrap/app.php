@@ -15,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'user.active' => \App\Http\Middleware\EnsureUserIsActive::class,
         ]);
+
+        // Trust all proxies (Railway load balancer)
+        $middleware->trustProxies(at: '*');
         
         // Enable CORS for API routes
         $middleware->api(prepend: [
