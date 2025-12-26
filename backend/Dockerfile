@@ -34,6 +34,7 @@ RUN composer install --no-dev --optimize-autoloader
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Enable Apache mod_rewrite
+RUN a2dismod mpm_event mpm_worker || true
 RUN a2enmod rewrite
 
 # Update Apache config to point to public folder
