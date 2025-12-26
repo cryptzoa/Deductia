@@ -13,7 +13,8 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        env('FRONTEND_URL', 'https://class-companion-three.vercel.app'),
+        'https://class-companion-three.vercel.app',
+        'http://localhost:3000',
     ],
 
     'allowed_origins_patterns' => [],
