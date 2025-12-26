@@ -8,7 +8,7 @@
     "require": {
         "ext-zip": "*",
         "ext-intl": "*",
-        "php": "^8.2",
+        "php": "^8.3",
         "filament/filament": "3.3",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.2",
