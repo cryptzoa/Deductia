@@ -55,7 +55,7 @@ Untuk mencegah kecurangan (titip absen), sistem menerapkan validasi berlapis:
   - Sistem mendeteksi keberadaan wajah manusia secara _real-time_ melalui kamera.
   - Tombol submit hanya aktif jika AI mengonfirmasi adanya wajah dengan tingkat kepercayaan tertentu.
   - Mencegah pengambilan gambar benda mati atau foto kosong.
-- **One-Device Enforcement** (Optional Logic): Mencegah satu akun login di banyak device secara bersamaan melalui manajemen token.
+- **One-Device Enforcement**: Mencegah satu akun login di banyak device secara bersamaan melalui manajemen token (Login baru akan menendang sesi lama).
 - **Window Time**: Absensi hanya valid jika dilakukan dalam waktu 15 menit sejak sesi dibuka.
 
 ---

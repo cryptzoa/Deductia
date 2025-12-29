@@ -67,6 +67,9 @@ class AuthController extends Controller
             ], 403);
         }
 
+        // One-Device Enforcement: Revoke all previous tokens
+        $user->tokens()->delete();
+
         // Create token
         $token = $user->createToken('auth-token')->plainTextToken;
 
