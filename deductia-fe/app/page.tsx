@@ -268,10 +268,10 @@ export default function Dashboard() {
 
       {/* DEMO BANNER */}
       {!isLoggedIn && !isUserLoading && (
-        <div className="bg-primary/20 border-b border-primary/30 text-primary-foreground/80 px-4 py-2 text-center text-sm font-medium">
+        <div className="bg-primary/20 border-b border-primary/30 text-slate-300 px-4 py-2 text-center text-sm font-medium">
           Note: You are viewing a{" "}
-          <span className="text-foreground font-bold">Demo Dashboard</span>. Log
-          in to access your real account.
+          <span className="text-primary font-bold">Demo Dashboard</span>. Log in
+          to access your real account.
         </div>
       )}
 
