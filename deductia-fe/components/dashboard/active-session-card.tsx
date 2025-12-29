@@ -24,7 +24,7 @@ export default function ActiveSessionCard({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-3xl bg-gradient-to-br from-primary/20 to-background border border-primary/30 p-1 overflow-hidden relative"
+      className="rounded-3xl bg-gradient-to-br from-primary/20 to-background border border-primary/30 p-1 overflow-hidden relative min-h-[300px] flex flex-col"
     >
       <div className="bg-slate-950/80 backdrop-blur-xl rounded-[22px] p-6 h-full relative z-10">
         <div className="flex items-center gap-3 mb-6">
