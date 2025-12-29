@@ -26,7 +26,7 @@ export default function ActiveSessionCard({
       animate={{ opacity: 1, y: 0 }}
       className="rounded-3xl bg-gradient-to-br from-primary/20 to-background border border-primary/30 p-1 overflow-hidden relative min-h-[300px] flex flex-col"
     >
-      <div className="bg-slate-950/80 backdrop-blur-xl rounded-[22px] p-6 h-full relative z-10">
+      <div className="bg-slate-950/80 backdrop-blur-xl rounded-[22px] p-6 flex-1 flex flex-col justify-between relative z-10">
         <div className="flex items-center gap-3 mb-6">
           <span className="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-bold uppercase tracking-wider animate-pulse">
             <span className="w-2 h-2 rounded-full bg-green-500" /> Live Session
