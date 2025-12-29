@@ -20,7 +20,7 @@ export default function UpcomingSessionCard({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-slate-900/40 backdrop-blur-xl border border-white/5 p-6 rounded-3xl h-full relative overflow-hidden group min-h-[300px] flex flex-col justify-between"
+      className="bg-slate-900/40 backdrop-blur-xl border border-white/5 p-6 rounded-3xl h-full relative overflow-hidden group flex flex-col justify-between"
     >
       {/* Background Pattern */}
       <div className="absolute top-0 right-0 p-20 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all duration-700" />
