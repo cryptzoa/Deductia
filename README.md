@@ -208,7 +208,7 @@ Dosen dapat mendistribusikan materi dnegan fitur auto-detection:
 
 ---
 
-## 👨‍💻 Informasi Pengembang
+## 👨‍💻 Developer
 
 Tugas Akhir / UAS Pemrograman Pemrograman Dasar 2
 
