@@ -171,7 +171,7 @@ export default function RegisterPage() {
                     NIM
                   </label>
                   <div className="relative group">
-                    <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 w-5 h-5 transition-colors group-focus-within:text-green-400" />
+                    <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 w-5 h-5 transition-colors group-focus-within:text-primary" />
                     <input
                       type="number"
                       value={nim}
@@ -189,12 +189,12 @@ export default function RegisterPage() {
                     Password
                   </label>
                   <div className="relative group">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 w-5 h-5 transition-colors group-focus-within:text-green-400" />
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 w-5 h-5 transition-colors group-focus-within:text-primary" />
                     <input
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full pl-12 pr-12 py-4 bg-zinc-800/50 border border-zinc-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 text-white placeholder:text-zinc-600 transition-all font-medium"
+                      className="w-full pl-12 pr-12 py-4 bg-zinc-800/50 border border-zinc-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 text-white placeholder:text-zinc-600 transition-all font-medium"
                       placeholder="••••••••"
                       required
                     />
@@ -218,7 +218,7 @@ export default function RegisterPage() {
                     Confirm Password
                   </label>
                   <div className="relative group">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 w-5 h-5 transition-colors group-focus-within:text-green-400" />
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 w-5 h-5 transition-colors group-focus-within:text-primary" />
                     <input
                       type={showPassword ? "text" : "password"}
                       value={passwordConfirmation}
@@ -258,7 +258,7 @@ export default function RegisterPage() {
                   type="submit"
                   disabled={loading}
                   className={clsx(
-                    "w-full py-4 rounded-xl font-bold shadow-xl shadow-green-500/20 transition-all relative overflow-hidden group",
+                    "w-full py-4 rounded-xl font-bold shadow-xl shadow-primary/20 transition-all relative overflow-hidden group",
                     "bg-white text-black hover:bg-zinc-200",
                     "disabled:opacity-70 disabled:cursor-not-allowed"
                   )}

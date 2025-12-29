@@ -56,10 +56,10 @@
 @layer base {
   :root {
     /* Executive Teal Theme - Dark Mode Default */
-    --background: 222.2 84% 4.9%; /* slate-950 like */
+    --background: 222.2 47.4% 11.2%; /* slate-950 */
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 222.2 47.4% 11.2%; /* slate-950 */
     --card-foreground: 210 40% 98%;
 
     --popover: 222.2 84% 4.9%;

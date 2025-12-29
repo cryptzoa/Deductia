@@ -138,18 +138,18 @@ export default function LoginPage() {
                     <button
                       type="button"
                       onClick={() => router.push("/forgot-password")}
-                      className="text-xs text-indigo-400 hover:text-indigo-300 hover:underline"
+                      className="text-xs text-primary hover:text-primary/80 hover:underline"
                     >
                       Forgot Password?
                     </button>
                   </div>
                   <div className="relative group">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 w-5 h-5 transition-colors group-focus-within:text-indigo-400" />
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 w-5 h-5 transition-colors group-focus-within:text-primary" />
                     <input
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full pl-12 pr-12 py-4 bg-zinc-800/50 border border-zinc-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 text-white placeholder:text-zinc-600 transition-all font-medium"
+                      className="w-full pl-12 pr-12 py-4 bg-zinc-800/50 border border-zinc-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 text-white placeholder:text-zinc-600 transition-all font-medium"
                       placeholder="••••••••"
                       required
                     />
@@ -184,7 +184,7 @@ export default function LoginPage() {
                   type="submit"
                   disabled={loading}
                   className={clsx(
-                    "w-full py-4 rounded-xl font-bold shadow-xl shadow-indigo-500/20 transition-all relative overflow-hidden group",
+                    "w-full py-4 rounded-xl font-bold shadow-xl shadow-primary/20 transition-all relative overflow-hidden group",
                     "bg-white text-black hover:bg-zinc-200",
                     "disabled:opacity-70 disabled:cursor-not-allowed"
                   )}
@@ -201,7 +201,7 @@ export default function LoginPage() {
                 Don't have an account?{" "}
                 <button
                   onClick={() => router.push("/register")}
-                  className="text-indigo-400 hover:text-indigo-300 font-bold hover:underline transition-all"
+                  className="text-primary hover:text-primary/80 font-bold hover:underline transition-all"
                 >
                   Register Here
                 </button>
