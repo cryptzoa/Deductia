@@ -29,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(Login::class)
-            ->brandName('Class Companion')
+            ->brandName('Deductia')
             ->font('Plus Jakarta Sans')
             ->colors([
                 'primary' => Color::Indigo,

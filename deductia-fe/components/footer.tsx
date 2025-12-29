@@ -19,7 +19,7 @@ export default function Footer() {
                 <Code2 className="w-5 h-5 text-indigo-400" />
               </div>
               <span className="text-sm font-mono text-indigo-400 tracking-wider uppercase">
-                Class Companion
+                Deductia
               </span>
             </div>
             <p className="text-zinc-400 text-sm leading-relaxed max-w-xs">
@@ -34,7 +34,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-zinc-500">
               <li>
                 <a
-                  href="https://github.com/rayhansoeangkupon/class-companion-fe"
+                  href="https://github.com/rayhansoeangkupon/deductia-fe"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-indigo-400 transition-colors flex items-center gap-2"
@@ -69,7 +69,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-zinc-600 font-mono">
-            © {currentYear} Class Companion Inc. All rights reserved.
+            © {currentYear} Deductia Inc. All rights reserved.
           </p>
           <div className="flex items-center gap-1 text-xs text-zinc-600">
             <span>Built with passion by</span>

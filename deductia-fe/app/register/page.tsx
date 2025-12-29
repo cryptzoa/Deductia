@@ -89,7 +89,7 @@ export default function RegisterPage() {
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Join <br />
               <span className="bg-linear-to-r from-green-400 to-emerald-400 text-transparent bg-clip-text">
-                Class Companion
+                Deductia
               </span>
             </h1>
             <p className="text-2xl font-semibold text-zinc-300 mb-6 -mt-4">

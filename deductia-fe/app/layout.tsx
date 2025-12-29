@@ -8,7 +8,7 @@ const font = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Class Companion",
+  title: "Deductia",
   description: "Student Attendance System",
   icons: {
     icon: "/icon.png",

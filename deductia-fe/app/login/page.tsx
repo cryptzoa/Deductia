@@ -72,7 +72,7 @@ export default function LoginPage() {
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Welcome to <br />
               <span className="bg-linear-to-r from-indigo-400 to-violet-400 text-transparent bg-clip-text">
-                Class Companion
+                Deductia
               </span>
             </h1>
             <p className="text-2xl font-semibold text-zinc-300 mb-6 -mt-4">
@@ -106,7 +106,7 @@ export default function LoginPage() {
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-linear-to-tr from-indigo-500 to-violet-500 mb-4 shadow-lg shadow-indigo-500/20">
                 <GraduationCap className="w-8 h-8 text-white" />
               </div>
-              <h1 className="text-2xl font-bold">Class Companion</h1>
+              <h1 className="text-2xl font-bold">Deductia</h1>
               <p className="text-zinc-400 font-medium">Pemrograman Dasar</p>
             </div>
 
@@ -210,7 +210,7 @@ export default function LoginPage() {
                 </button>
               </p>
               <p className="text-xs text-zinc-600">
-                &copy; 2025 Class Companion. All rights reserved.
+                &copy; 2025 Deductia. All rights reserved.
               </p>
             </div>
           </motion.div>

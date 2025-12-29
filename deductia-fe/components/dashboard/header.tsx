@@ -31,7 +31,7 @@ export default function DashboardHeader({
             <Code2 className="w-4 h-4 text-indigo-400" />
           </div>
           <span className="text-xs font-mono text-indigo-400 tracking-wider uppercase">
-            Class Companion v2.1.0
+            Deductia v2.1.0
           </span>
         </div>
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-1">

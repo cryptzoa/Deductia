@@ -1,6 +1,6 @@
-# 🎓 Class Companion
+# 🎓 Deductia
 
-**Class Companion** adalah sistem manajemen absensi dan pembelajaran (LMS) modern yang dirancang khusus untuk perkuliahan. Sistem ini menjembatani komunikasi antara dosen dan mahasiswa melalui pengalaman digital yang mulus, aman, dan real-time.
+**Deductia** adalah sistem manajemen absensi dan pembelajaran (LMS) modern yang dirancang khusus untuk perkuliahan. Sistem ini menjembatani komunikasi antara dosen dan mahasiswa melalui pengalaman digital yang mulus, aman, dan real-time.
 
 ---
 
@@ -146,7 +146,7 @@ Dosen dapat mendistribusikan materi dnegan fitur auto-detection:
 1.  **Clone & Install Dependencies**
 
     ```bash
-    git clone https://github.com/username/class-companion.git
+    git clone https://github.com/username/deductia.git
     cd backend
     composer install
     ```
@@ -161,7 +161,7 @@ Dosen dapat mendistribusikan materi dnegan fitur auto-detection:
     _Edit `.env` sesuaikan database:_
 
     ```env
-    DB_DATABASE=class_companion
+    DB_DATABASE=deductia
     DB_USERNAME=root
     DB_PASSWORD=
     ```
@@ -184,7 +184,7 @@ Dosen dapat mendistribusikan materi dnegan fitur auto-detection:
 1.  **Install Dependencies**
 
     ```bash
-    cd ../class-companion-fe
+    cd ../deductia-fe
     npm install
     ```
 
