@@ -1,0 +1,76 @@
+"use client";
+
+import { CheckCircle2, Terminal } from "lucide-react";
+import { motion } from "framer-motion";
+
+interface ActiveSessionCardProps {
+  session: any; // Using any for the extended session type for simplicity, or I can define it properly
+  isLoadingAttendances: boolean;
+  isLoggedIn: boolean;
+  hasAttended: boolean;
+  onMarkAttendance: () => void;
+  onViewDetails: () => void;
+}
+
+export default function ActiveSessionCard({
+  session,
+  isLoadingAttendances,
+  isLoggedIn,
+  hasAttended,
+  onMarkAttendance,
+  onViewDetails,
+}: ActiveSessionCardProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="rounded-3xl bg-linear-to-br from-indigo-900/50 to-zinc-900 border border-indigo-500/30 p-1 overflow-hidden relative"
+    >
+      <div className="bg-[#0c0c0e] rounded-[22px] p-6 h-full relative z-10">
+        <div className="flex items-center gap-3 mb-6">
+          <span className="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-bold uppercase tracking-wider animate-pulse">
+            <span className="w-2 h-2 rounded-full bg-green-500" /> Live Session
+          </span>
+          <span className="text-zinc-500 text-sm">|</span>
+          <span className="text-zinc-400 text-sm font-mono">
+            Week {session.week_number}
+          </span>
+        </div>
+
+        <h2 className="text-3xl font-bold text-white mb-2">{session.title}</h2>
+        <p className="text-zinc-400 mb-8 max-w-lg">
+          Session is currently active. Ensure you check in before the time runs
+          out.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {isLoadingAttendances && isLoggedIn ? (
+            <div className="py-4 text-center rounded-xl bg-zinc-800/50 text-zinc-500 font-mono text-sm">
+              Loading attendance...
+            </div>
+          ) : hasAttended ? (
+            <div className="py-4 px-6 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center gap-3 text-green-400 font-bold">
+              <CheckCircle2 className="w-5 h-5" />
+              <span>Checked In</span>
+            </div>
+          ) : (
+            <button
+              onClick={onMarkAttendance}
+              className="py-4 px-6 rounded-xl bg-white text-black font-bold hover:bg-zinc-200 transition-colors flex items-center justify-center gap-2"
+            >
+              {isLoggedIn ? "Mark Attendance" : "Login to Attend"}{" "}
+              <Terminal className="w-4 h-4 ml-1" />
+            </button>
+          )}
+
+          <button
+            onClick={onViewDetails}
+            className="py-4 px-6 rounded-xl bg-zinc-800 text-white font-medium hover:bg-zinc-700 transition-colors border border-white/5"
+          >
+            Session Details
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+}

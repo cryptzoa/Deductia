@@ -1,26 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AttendanceDrawer from "@/components/attendance-drawer";
 import SessionDetailModal from "@/components/session-detail-modal";
 import Footer from "@/components/footer";
-import { motion } from "framer-motion";
-import {
-  Calendar,
-  Clock,
-  LogOut,
-  FileText,
-  PlayCircle,
-  LinkIcon,
-  Download,
-  CheckCircle2,
-  Terminal,
-  Code2,
-  Cpu,
-  Book,
-  LogIn,
-  User as UserIcon,
-} from "lucide-react";
 import { useUser } from "@/hooks/use-user";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/axios";
@@ -29,10 +12,17 @@ import {
   SessionsResponse,
   MaterialsResponse,
   AttendancesResponse,
-  User,
 } from "@/types/api";
 import { useRouter } from "next/navigation";
-import { clsx } from "clsx";
+
+// Imported Dashboard Components
+import DashboardHeader from "@/components/dashboard/header";
+import ActiveSessionCard from "@/components/dashboard/active-session-card";
+import UpcomingSessionCard from "@/components/dashboard/upcoming-session-card";
+import MaterialsList from "@/components/dashboard/materials-list";
+import AttendanceStats from "@/components/dashboard/attendance-stats";
+import CourseInfoCard from "@/components/dashboard/course-info-card";
+import StudentPortalTeaser from "@/components/dashboard/student-portal-teaser";
 
 // --- MOCK DATA FOR DEMO MODE ---
 const MOCK_SESSIONS: Session[] = [
@@ -95,7 +85,16 @@ export default function Dashboard() {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   // Disable redirect for demo mode
-  const { user, isLoading: isUserLoading } = useUser({ redirect: false });
+  const {
+    user,
+    isLoading: isUserLoading,
+    isError,
+  } = useUser({ redirect: false });
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -215,13 +214,6 @@ export default function Dashboard() {
   const totalWeeks = 14;
   const progressPercent = Math.min((currentWeek / totalWeeks) * 100, 100);
 
-  const todayDate = new Date().toLocaleDateString("en-US", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-
   // Action Handlers for Demo
   const handleMarkAttendanceCheck = () => {
     if (!isLoggedIn) {
@@ -239,8 +231,12 @@ export default function Dashboard() {
     setIsDetailOpen(true);
   };
 
+  // Check if we have a token (implying we should be logged in) but data isn't ready
+  const hasToken = isMounted && localStorage.getItem("token");
+  const showLoading = isUserLoading || (hasToken && !user && !isError);
+
   // Prevent flash of demo content while checking auth
-  if (isUserLoading) {
+  if (showLoading) {
     return (
       <main className="min-h-screen bg-[#09090b] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
@@ -275,371 +271,55 @@ export default function Dashboard() {
       )}
 
       <div className="max-w-7xl mx-auto p-6 md:p-8 relative z-10">
-        {/* HEADER: Subject Identity */}
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4 border-b border-white/5 pb-6">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <div className="p-1.5 bg-indigo-500/20 rounded border border-indigo-500/30">
-                <Code2 className="w-4 h-4 text-indigo-400" />
-              </div>
-              <span className="text-xs font-mono text-indigo-400 tracking-wider uppercase">
-                Class Companion v2.1.0
-              </span>
-            </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-1">
-              Basic Programming
-            </h1>
-            <p className="text-zinc-400">
-              {isLoggedIn ? (
-                <>
-                  Welcome back,{" "}
-                  <span className="text-white font-medium">{user?.name}</span>.
-                  Ready to code today?
-                </>
-              ) : (
-                <>
-                  Welcome, <span className="text-white font-medium">Guest</span>
-                  . View class schedules and materials.
-                </>
-              )}
-            </p>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="text-right hidden md:block">
-              <p className="text-xs text-zinc-500 font-mono">TODAY</p>
-              <p
-                className="text-sm font-medium text-zinc-300"
-                suppressHydrationWarning
-              >
-                {todayDate}
-              </p>
-            </div>
-
-            {isLoggedIn ? (
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20 transition-all group font-medium text-sm"
-              >
-                <LogOut className="w-4 h-4 text-zinc-400 group-hover:text-red-400" />
-                <span className="hidden sm:inline">Logout</span>
-              </button>
-            ) : (
-              <button
-                onClick={handleLogin}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-black font-bold hover:bg-zinc-200 transition-all shadow-lg shadow-indigo-500/10"
-              >
-                <LogIn className="w-4 h-4" />
-                <span>
-                  Login <span className="hidden sm:inline">to Access</span>
-                </span>
-              </button>
-            )}
-          </div>
-        </header>
+        <DashboardHeader
+          user={user}
+          isLoggedIn={isLoggedIn}
+          onLogout={handleLogout}
+          onLogin={handleLogin}
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* LEFT COLUMN: Main Status (Hero) */}
           <div className="lg:col-span-2 space-y-6">
             {/* ACTIVE SESSION CARD */}
             {activeSession ? (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="rounded-3xl bg-linear-to-br from-indigo-900/50 to-zinc-900 border border-indigo-500/30 p-1 overflow-hidden relative"
-              >
-                <div className="bg-[#0c0c0e] rounded-[22px] p-6 h-full relative z-10">
-                  <div className="flex items-center gap-3 mb-6">
-                    <span className="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-bold uppercase tracking-wider animate-pulse">
-                      <span className="w-2 h-2 rounded-full bg-green-500" />{" "}
-                      Live Session
-                    </span>
-                    <span className="text-zinc-500 text-sm">|</span>
-                    <span className="text-zinc-400 text-sm font-mono">
-                      Week {activeSession.week_number}
-                    </span>
-                  </div>
-
-                  <h2 className="text-3xl font-bold text-white mb-2">
-                    {activeSession.title}
-                  </h2>
-                  <p className="text-zinc-400 mb-8 max-w-lg">
-                    Session is currently active. Ensure you check in before the
-                    time runs out.
-                  </p>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {isLoadingAttendances && isLoggedIn ? (
-                      <div className="py-4 text-center rounded-xl bg-zinc-800/50 text-zinc-500 font-mono text-sm">
-                        Loading attendance...
-                      </div>
-                    ) : hasAttended ? (
-                      <div className="py-4 px-6 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center gap-3 text-green-400 font-bold">
-                        <CheckCircle2 className="w-5 h-5" />
-                        <span>Checked In</span>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={handleMarkAttendanceCheck}
-                        className="py-4 px-6 rounded-xl bg-white text-black font-bold hover:bg-zinc-200 transition-colors flex items-center justify-center gap-2"
-                      >
-                        {isLoggedIn ? "Mark Attendance" : "Login to Attend"}{" "}
-                        <Terminal className="w-4 h-4 ml-1" />
-                      </button>
-                    )}
-
-                    <button
-                      onClick={handleViewDetails}
-                      className="py-4 px-6 rounded-xl bg-zinc-800 text-white font-medium hover:bg-zinc-700 transition-colors border border-white/5"
-                    >
-                      Session Details
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
+              <ActiveSessionCard
+                session={activeSession}
+                isLoadingAttendances={isLoadingAttendances}
+                isLoggedIn={isLoggedIn}
+                hasAttended={hasAttended}
+                onMarkAttendance={handleMarkAttendanceCheck}
+                onViewDetails={handleViewDetails}
+              />
             ) : (
-              /* EMPTY STATE: "Next Class" Focus */
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="rounded-3xl bg-zinc-900/50 border border-white/5 p-8 relative overflow-hidden min-h-[300px] flex flex-col justify-between group"
-              >
-                {/* Background Pattern */}
-                <div className="absolute top-0 right-0 p-20 bg-indigo-500/5 rounded-full blur-3xl group-hover:bg-indigo-500/10 transition-all duration-700" />
-                <Cpu className="absolute bottom-8 right-8 w-24 h-24 text-white/5 rotate-12" />
-
-                <div>
-                  <div className="flex items-center gap-2 text-indigo-400 font-mono text-xs uppercase tracking-widest mb-4">
-                    <span className="w-2 h-2 bg-indigo-500 rounded-sm" /> Next
-                    on Schedule
-                  </div>
-
-                  {upcomingSession ? (
-                    <>
-                      <h2 className="text-3xl font-bold text-white mb-2 max-w-md leading-tight">
-                        {upcomingSession.title}
-                      </h2>
-                      <div className="flex items-center gap-4 text-zinc-400 mt-4">
-                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/40 border border-white/5">
-                          <Calendar className="w-4 h-4 text-zinc-500" />
-                          <span className="text-sm">
-                            {new Date(
-                              upcomingSession.start_time || Date.now()
-                            ).toLocaleDateString("id-ID", {
-                              weekday: "long",
-                              day: "numeric",
-                              month: "short",
-                            })}
-                          </span>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <div>
-                      <h2 className="text-2xl font-bold text-white">
-                        No Upcoming Classes
-                      </h2>
-                      <p className="text-zinc-500 mt-2">
-                        You have completed all scheduled sessions.
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                {/* Progress Bar (Decorative) */}
-                <div className="mt-8">
-                  <div className="flex justify-between text-xs font-mono text-zinc-500 mb-2">
-                    <span>SEMESTER PROGRESS</span>
-                    <span>
-                      WEEK {currentWeek} / {totalWeeks}
-                    </span>
-                  </div>
-                  <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-indigo-600 rounded-full"
-                      style={{ width: `${progressPercent}%` }}
-                    />
-                  </div>
-                </div>
-              </motion.div>
+              <UpcomingSessionCard
+                upcomingSession={upcomingSession}
+                currentWeek={currentWeek}
+                totalWeeks={totalWeeks}
+                progressPercent={progressPercent}
+              />
             )}
 
             {/* MATERIALS SECTION (Compact List) */}
-            <div className="bg-zinc-900/30 border border-white/5 rounded-3xl p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="flex items-center gap-2 font-bold text-zinc-200">
-                  <Book className="w-5 h-5 text-zinc-500" />
-                  Recent Resources
-                </h3>
-                <button
-                  onClick={() =>
-                    router.push(isLoggedIn ? "/materials" : "/login")
-                  }
-                  className="text-xs font-mono text-indigo-400 hover:text-indigo-300"
-                >
-                  VIEW_ALL_FILES()
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {rawMaterials && rawMaterials.length > 0 ? (
-                  rawMaterials.map((item) => (
-                    <a
-                      key={item.id}
-                      href={isLoggedIn ? item.file_url : "/login"}
-                      target={isLoggedIn ? "_blank" : "_self"}
-                      className="flex items-center gap-3 p-3 rounded-xl bg-zinc-900 border border-white/5 hover:border-indigo-500/30 hover:bg-zinc-800 transition-all group"
-                    >
-                      <div className="p-2 bg-black rounded-lg text-zinc-500 group-hover:text-indigo-400 transition-colors">
-                        <FileText className="w-5 h-5" />
-                      </div>
-                      <div className="overflow-hidden">
-                        <p className="text-sm font-medium text-zinc-200 truncate group-hover:text-white transition-colors">
-                          {item.title}
-                        </p>
-                        <p className="text-xs text-zinc-500 truncate font-mono">
-                          {item.created_at
-                            ? new Date(item.created_at).toLocaleDateString(
-                                "id-ID"
-                              )
-                            : "Unknown Date"}
-                        </p>
-                      </div>
-                      {!isLoggedIn && (
-                        <div className="ml-auto">
-                          <LogIn className="w-4 h-4 text-zinc-600 group-hover:text-indigo-400" />
-                        </div>
-                      )}
-                    </a>
-                  ))
-                ) : (
-                  <div className="col-span-2 text-center py-8 text-zinc-500 text-sm">
-                    No resources uploaded yet.
-                  </div>
-                )}
-              </div>
-            </div>
+            <MaterialsList
+              materials={rawMaterials || []}
+              isLoggedIn={isLoggedIn}
+            />
           </div>
 
           {/* RIGHT COLUMN: Stats & Info */}
           <div className="space-y-6">
-            {/* ATTENDANCE CARD */}
-            <div className="bg-zinc-900/50 border border-white/5 p-6 rounded-3xl">
-              <h3 className="text-sm font-medium text-zinc-400 mb-6 uppercase tracking-wider font-mono">
-                {isLoggedIn ? "Attendance Rate" : "Target Attendance"}
-              </h3>
+            <AttendanceStats
+              attendanceRate={attendanceRate}
+              displayPastSessions={displayPastSessions}
+              displayAttended={displayAttended}
+              isLoggedIn={isLoggedIn}
+            />
 
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-4xl font-bold text-white block mb-1">
-                    {isNaN(attendanceRate) ? 0 : attendanceRate}%
-                  </span>
-                  <span
-                    className={`text-xs px-2 py-1 rounded border ${
-                      attendanceRate >= 80
-                        ? "bg-green-500/10 text-green-400 border-green-500/20"
-                        : attendanceRate >= 50
-                        ? "bg-yellow-500/10 text-yellow-400 border-yellow-500/20"
-                        : "bg-red-500/10 text-red-400 border-red-500/20"
-                    }`}
-                  >
-                    {attendanceRate >= 80
-                      ? "EXCELLENT"
-                      : attendanceRate >= 50
-                      ? "AVERAGE"
-                      : "LOW"}
-                  </span>
-                </div>
-
-                {/* Mini Circular Chart */}
-                <div className="relative w-16 h-16">
-                  <svg
-                    className="w-full h-full -rotate-90"
-                    viewBox="0 0 100 100"
-                  >
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r="40"
-                      fill="transparent"
-                      stroke="#27272a"
-                      strokeWidth="12"
-                    />
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r="40"
-                      fill="transparent"
-                      stroke={attendanceRate >= 80 ? "#22c55e" : "#eab308"}
-                      strokeWidth="12"
-                      strokeDasharray="251.2"
-                      strokeDashoffset={251.2 - (251.2 * attendanceRate) / 100}
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </div>
-              </div>
-
-              <div className="mt-6 pt-6 border-t border-white/5 space-y-3">
-                <div className="flex justify-between text-sm">
-                  <span className="text-zinc-500">Total Sessions</span>
-                  <span className="text-white font-mono">
-                    {displayPastSessions}
-                  </span>
-                </div>
-                {!isLoggedIn && (
-                  <div className="text-xs text-center pt-2 text-zinc-500 italic">
-                    *Sample data for demo
-                  </div>
-                )}
-                {isLoggedIn && (
-                  <>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-zinc-500">Present</span>
-                      <span className="text-white font-mono">
-                        {displayAttended}
-                      </span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-zinc-500">Missed</span>
-                      <span className="text-red-400 font-mono">
-                        {displayPastSessions - displayAttended}
-                      </span>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-
-            {/* INFO CARD */}
-            <div className="bg-linear-to-b from-indigo-900/20 to-zinc-900/50 border border-indigo-500/20 p-6 rounded-3xl relative overflow-hidden">
-              <Terminal className="w-20 h-20 text-indigo-500/10 absolute -bottom-4 -right-4 rotate-12" />
-              <h3 className="text-sm font-medium text-indigo-300 mb-2 font-mono">
-                COURSE INFO
-              </h3>
-              <p className="text-zinc-400 text-sm leading-relaxed relative z-10">
-                Stay consistent with your practice. Remember to check materials
-                before every class.
-              </p>
-            </div>
+            <CourseInfoCard />
 
             {/* LOGIN TEASER (Only for guests) */}
-            {!isLoggedIn && (
-              <div className="bg-zinc-800/50 border border-white/5 p-6 rounded-3xl text-center">
-                <UserIcon className="w-10 h-10 text-white mx-auto mb-3" />
-                <h3 className="text-white font-bold mb-2">Student Portal</h3>
-                <p className="text-sm text-zinc-400 mb-4">
-                  Log in to access your real-time attendance, grades, and
-                  exclusive learning materials.
-                </p>
-                <button
-                  onClick={handleLogin}
-                  className="w-full py-2.5 rounded-xl bg-white text-black font-bold hover:bg-zinc-200 transition-colors"
-                >
-                  Log In Now
-                </button>
-              </div>
-            )}
+            {!isLoggedIn && <StudentPortalTeaser onLogin={handleLogin} />}
           </div>
         </div>
       </div>
