@@ -56,12 +56,14 @@ export default function SessionDetailModal({
               {/* Body */}
               <div className="p-6 space-y-6">
                 {/* Time & Status */}
-                <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-xl bg-indigo-500/20 text-indigo-400">
-                    <Calendar className="w-6 h-6" />
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-3 rounded-xl bg-primary/20 text-primary">
+                    <Calendar className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-white">Date & Time</h3>
+                    <label className="text-xs text-muted-foreground uppercase tracking-wider font-bold">
+                      Date & Time
+                    </label>
                     <p className="text-zinc-400 text-sm">
                       {new Date(session.session_date).toLocaleDateString(
                         "id-ID",
@@ -79,7 +81,7 @@ export default function SessionDetailModal({
                 {/* Material Section */}
                 {session.material ? (
                   <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-xl bg-emerald-500/20 text-emerald-400">
+                    <div className="p-3 rounded-xl bg-secondary/20 text-secondary">
                       <BookOpen className="w-6 h-6" />
                     </div>
                     <div>
@@ -92,7 +94,7 @@ export default function SessionDetailModal({
                           session.material.file_url || session.material.link
                         }
                         target="_blank"
-                        className="text-xs bg-emerald-500/10 text-emerald-400 px-3 py-1.5 rounded-lg border border-emerald-500/20 hover:bg-emerald-500/20 transition-colors inline-block"
+                        className="text-xs bg-secondary/10 text-secondary px-3 py-1.5 rounded-lg border border-secondary/20 hover:bg-secondary/20 transition-colors inline-block"
                       >
                         Open Material
                       </a>
@@ -113,6 +115,21 @@ export default function SessionDetailModal({
                     </div>
                   </div>
                 )}
+
+                {/* Status Section */}
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-3 rounded-xl bg-muted text-muted-foreground">
+                    <Clock className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <label className="text-xs text-muted-foreground uppercase tracking-wider font-bold">
+                      Status
+                    </label>
+                    <p className="text-muted-foreground text-sm">
+                      {session.status === "finished" ? "Completed" : "Upcoming"}
+                    </p>
+                  </div>
+                </div>
 
                 {/* Room/Location - Mock if not in API yet */}
                 <div className="flex items-center gap-4">

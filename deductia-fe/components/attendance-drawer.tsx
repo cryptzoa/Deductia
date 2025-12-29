@@ -296,7 +296,7 @@ export default function AttendanceDrawer({
               </h2>
               <button
                 onClick={onClose}
-                className="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700"
+                className="p-2 bg-muted rounded-full hover:bg-muted/80"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -310,7 +310,7 @@ export default function AttendanceDrawer({
                   animate={{ opacity: 1, scale: 1 }}
                   className="w-full flex flex-col items-center gap-4"
                 >
-                  <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden bg-black border-2 border-indigo-500/30">
+                  <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden bg-black border-2 border-primary/30">
                     <video
                       ref={videoRef}
                       autoPlay
@@ -324,7 +324,7 @@ export default function AttendanceDrawer({
                         "absolute inset-0 border-[3px] rounded-2xl transition-colors duration-300",
                         detection
                           ? "border-green-500"
-                          : "border-indigo-500 opacity-50 scanner-animation"
+                          : "border-primary opacity-50 scanner-animation"
                       )}
                     />
 
@@ -357,8 +357,8 @@ export default function AttendanceDrawer({
                   animate={{ opacity: 1, x: 0 }}
                   className="w-full flex flex-col items-center gap-6"
                 >
-                  <div className="w-32 h-32 bg-indigo-500/20 rounded-full flex items-center justify-center animate-pulse">
-                    <MapPin className="w-12 h-12 text-indigo-400" />
+                  <div className="w-32 h-32 bg-primary/20 rounded-full flex items-center justify-center animate-pulse">
+                    <MapPin className="w-12 h-12 text-primary" />
                   </div>
                   <div className="text-center">
                     <h3 className="text-lg font-semibold">
@@ -374,7 +374,7 @@ export default function AttendanceDrawer({
               {/* Step 3: Submitting */}
               {step === "submit" && (
                 <motion.div className="flex flex-col items-center gap-4">
-                  <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+                  <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
                   <p className="text-zinc-400">Submitting attendance...</p>
                 </motion.div>
               )}
@@ -404,7 +404,7 @@ export default function AttendanceDrawer({
                   <button
                     onClick={handleNextStep}
                     disabled={!detection}
-                    className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 rounded-xl font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-4 bg-primary hover:bg-primary/90 rounded-xl font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed text-primary-foreground"
                   >
                     {detection ? "Capture & Continue" : "Detecting Face..."}
                   </button>
@@ -414,7 +414,7 @@ export default function AttendanceDrawer({
                         // Manual retry
                         startCamera();
                       }}
-                      className="w-full py-3 bg-zinc-800 hover:bg-zinc-700 rounded-xl font-medium text-sm transition-all"
+                      className="w-full py-3 bg-muted hover:bg-muted/80 rounded-xl font-medium text-sm transition-all text-muted-foreground"
                     >
                       Retry Camera
                     </button>
@@ -424,7 +424,7 @@ export default function AttendanceDrawer({
               {step === "location" && location && (
                 <button
                   onClick={handleNextStep}
-                  className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 rounded-xl font-bold transition-all"
+                  className="w-full py-4 bg-primary hover:bg-primary/90 rounded-xl font-bold transition-all text-primary-foreground"
                 >
                   Submit Attendance
                 </button>

@@ -1,5 +1,7 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 interface AttendanceStatsProps {
   attendanceRate: number;
   displayPastSessions: number;
@@ -13,81 +15,95 @@ export default function AttendanceStats({
   displayAttended,
   isLoggedIn,
 }: AttendanceStatsProps) {
+  const missed = displayPastSessions - displayAttended; // Added this line to define 'missed'
+
   return (
-    <div className="bg-zinc-900/50 border border-white/5 p-6 rounded-3xl">
-      <h3 className="text-sm font-medium text-zinc-400 mb-6 uppercase tracking-wider font-mono">
-        {isLoggedIn ? "Attendance Rate" : "Target Attendance"}
-      </h3>
+    <div className="bg-card border border-border p-6 rounded-3xl h-full flex flex-col justify-between">
+      <div>
+        <h3 className="text-muted-foreground text-xs font-mono uppercase tracking-widest mb-4">
+          Attendance Rate
+        </h3>
 
-      <div className="flex items-center justify-between">
-        <div>
-          <span className="text-4xl font-bold text-white block mb-1">
-            {isNaN(attendanceRate) ? 0 : attendanceRate}%
-          </span>
-          <span
-            className={`text-xs px-2 py-1 rounded border ${
-              attendanceRate >= 80
-                ? "bg-green-500/10 text-green-400 border-green-500/20"
-                : attendanceRate >= 50
-                ? "bg-yellow-500/10 text-yellow-400 border-yellow-500/20"
-                : "bg-red-500/10 text-red-400 border-red-500/20"
-            }`}
-          >
-            {attendanceRate >= 80
-              ? "EXCELLENT"
-              : attendanceRate >= 50
-              ? "AVERAGE"
-              : "LOW"}
-          </span>
-        </div>
+        <div className="flex items-center gap-4 mb-6">
+          <div className="relative w-20 h-20 flex items-center justify-center">
+            <svg className="w-full h-full transform -rotate-90">
+              <circle
+                cx="40"
+                cy="40"
+                r="36"
+                className="stroke-muted/20"
+                strokeWidth="8"
+                fill="transparent"
+              />
+              <motion.circle
+                cx="40"
+                cy="40"
+                r="36"
+                className="stroke-primary"
+                stroke={
+                  attendanceRate >= 80
+                    ? "hsl(142.1 76.2% 36.3%)" // green-500 equivalent
+                    : attendanceRate >= 50
+                    ? "hsl(47.9 95.8% 53.1%)" // yellow-500 equivalent
+                    : "hsl(0 84.2% 60.2%)" // red-500 equivalent
+                }
+                strokeWidth="8" // Changed from 12 to 8 to match outer circle
+                strokeDasharray="226.19" // (2 * PI * 36)
+                strokeDashoffset={226.19 - (226.19 * attendanceRate) / 100}
+                strokeLinecap="round"
+                initial={{ strokeDashoffset: 226.19 }}
+                animate={{
+                  strokeDashoffset: 226.19 - (226.19 * attendanceRate) / 100,
+                }}
+                transition={{ duration: 1 }}
+              />
+            </svg>
+            <span className="absolute text-xl font-bold text-foreground">
+              {isNaN(attendanceRate) ? 0 : attendanceRate}%
+            </span>
+          </div>
 
-        {/* Mini Circular Chart */}
-        <div className="relative w-16 h-16">
-          <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-            <circle
-              cx="50"
-              cy="50"
-              r="40"
-              fill="transparent"
-              stroke="#27272a"
-              strokeWidth="12"
-            />
-            <circle
-              cx="50"
-              cy="50"
-              r="40"
-              fill="transparent"
-              stroke={attendanceRate >= 80 ? "#22c55e" : "#eab308"}
-              strokeWidth="12"
-              strokeDasharray="251.2"
-              strokeDashoffset={251.2 - (251.2 * attendanceRate) / 100}
-              strokeLinecap="round"
-            />
-          </svg>
+          <div>
+            {attendanceRate >= 80 ? (
+              <div className="px-2 py-1 rounded bg-success/10 text-success text-[10px] font-bold uppercase tracking-wider">
+                Excellent
+              </div>
+            ) : attendanceRate >= 50 ? (
+              <div className="px-2 py-1 rounded bg-warning/10 text-warning text-[10px] font-bold uppercase tracking-wider">
+                Average
+              </div>
+            ) : (
+              <div className="px-2 py-1 rounded bg-destructive/10 text-destructive text-[10px] font-bold uppercase tracking-wider">
+                Low
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      <div className="mt-6 pt-6 border-t border-white/5 space-y-3">
-        <div className="flex justify-between text-sm">
-          <span className="text-zinc-500">Total Sessions</span>
-          <span className="text-white font-mono">{displayPastSessions}</span>
+      <div className="mt-6 pt-6 border-t border-border space-y-3">
+        <div className="flex justify-between items-center text-sm text-muted-foreground">
+          <span>Total Sessions</span>
+          <span className="font-bold text-foreground">
+            {displayPastSessions}
+          </span>
         </div>
         {!isLoggedIn && (
-          <div className="text-xs text-center pt-2 text-zinc-500 italic">
+          <div className="text-xs text-center pt-2 text-muted-foreground italic">
             *Sample data for demo
           </div>
         )}
         {isLoggedIn && (
           <>
-            <div className="flex justify-between text-sm">
-              <span className="text-zinc-500">Present</span>
-              <span className="text-white font-mono">{displayAttended}</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-zinc-500">Missed</span>
-              <span className="text-red-400 font-mono">
-                {displayPastSessions - displayAttended}
+            <div className="flex justify-between items-center text-sm text-muted-foreground">
+              <span>Present</span>
+              <span className="font-bold text-foreground">
+                {displayAttended}
               </span>
+            </div>
+            <div className="flex justify-between items-center text-sm text-destructive">
+              <span>Missed</span>
+              <span className="font-bold">{missed}</span>
             </div>
           </>
         )}

@@ -15,7 +15,7 @@ export interface Material {
   file_url?: string;
   link?: string;
   // Helper for frontend logic
-  file_type?: "pdf" | "video" | "link" | "other";
+  file_type?: "pdf" | "video" | "link" | "ppt" | "other";
   session_title?: string;
   created_at?: string; // Add created_at for sorting
 }

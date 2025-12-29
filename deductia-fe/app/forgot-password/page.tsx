@@ -39,8 +39,8 @@ export default function ForgotPasswordPage() {
   return (
     <div className="flex min-h-screen bg-zinc-950 text-white overflow-hidden relative">
       {/* Background Gradients */}
-      <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-sky-600/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Main Container */}
       <div className="w-full h-screen grid grid-cols-1 lg:grid-cols-2 relative z-10">
@@ -53,11 +53,11 @@ export default function ForgotPasswordPage() {
             transition={{ duration: 0.8 }}
             className="relative z-10 max-w-lg text-center"
           >
-            <div className="mb-8 inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-linear-to-tr from-sky-500 to-blue-500 shadow-2xl shadow-sky-500/20">
+            <div className="mb-8 inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-tr from-primary to-secondary shadow-2xl shadow-primary/20">
               <KeyRound className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-4xl font-bold mb-4">Forgot Password?</h1>
-            <p className="text-zinc-400 text-lg leading-relaxed">
+            <p className="text-muted-foreground text-lg leading-relaxed">
               No worries! Just enter your email and we'll send you a link to
               reset your password.
             </p>
@@ -74,7 +74,7 @@ export default function ForgotPasswordPage() {
           >
             <button
               onClick={() => router.push("/login")}
-              className="flex items-center gap-2 text-zinc-500 hover:text-white mb-8 transition-colors text-sm"
+              className="flex items-center gap-2 text-primary hover:text-primary/80 font-bold hover:underline mb-8 transition-colors text-sm"
             >
               <ArrowLeft className="w-4 h-4" /> Back to Login
             </button>
@@ -88,16 +88,16 @@ export default function ForgotPasswordPage() {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-zinc-300 ml-1">
+                <label className="text-sm font-medium text-muted-foreground ml-1">
                   Email Address
                 </label>
                 <div className="relative group">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 w-5 h-5 transition-colors group-focus-within:text-sky-400" />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5 transition-colors group-focus-within:text-primary" />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 bg-zinc-800/50 border border-zinc-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500/50 text-white placeholder:text-zinc-600 transition-all font-medium"
+                    className="w-full pl-12 pr-4 py-4 bg-muted/50 border border-muted-foreground/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 text-foreground placeholder:text-muted-foreground transition-all font-medium"
                     placeholder="email@example.com"
                     required
                   />
@@ -125,9 +125,11 @@ export default function ForgotPasswordPage() {
                   "disabled:opacity-70 disabled:cursor-not-allowed"
                 )}
               >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  {loading ? "Sending Link..." : "Send Reset Link"}
-                </span>
+                {loading ? (
+                  <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  "Send Reset Link"
+                )}
               </button>
             </form>
           </motion.div>

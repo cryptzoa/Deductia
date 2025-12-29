@@ -245,8 +245,8 @@ export default function Dashboard() {
     return (
       <main className="min-h-screen bg-[#09090b] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
-          <p className="text-zinc-500 font-mono text-sm animate-pulse">
+          <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+          <p className="text-muted-foreground font-mono text-sm animate-pulse">
             Loading Dashboard...
           </p>
         </div>
@@ -255,7 +255,7 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="min-h-screen bg-[#09090b] text-zinc-100 font-sans selection:bg-indigo-500/30">
+    <main className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30">
       {/* Decorative Background: Coding Pattern */}
       <div
         className="fixed inset-0 pointer-events-none opacity-[0.03]"
@@ -268,10 +268,10 @@ export default function Dashboard() {
 
       {/* DEMO BANNER */}
       {!isLoggedIn && !isUserLoading && (
-        <div className="bg-indigo-600/20 border-b border-indigo-500/30 text-indigo-300 px-4 py-2 text-center text-sm font-medium">
+        <div className="bg-primary/20 border-b border-primary/30 text-primary-foreground/80 px-4 py-2 text-center text-sm font-medium">
           Note: You are viewing a{" "}
-          <span className="text-white font-bold">Demo Dashboard</span>. Log in
-          to access your real account.
+          <span className="text-foreground font-bold">Demo Dashboard</span>. Log
+          in to access your real account.
         </div>
       )}
 
