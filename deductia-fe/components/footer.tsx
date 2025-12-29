@@ -34,7 +34,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-zinc-500">
               <li>
                 <a
-                  href="https://github.com/rayhansoeangkupon/deductia-fe"
+                  href="https://github.com/cryptzoa/Deductia"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-indigo-400 transition-colors flex items-center gap-2"
