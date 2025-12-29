@@ -18,27 +18,27 @@ export default function AttendanceStats({
   const missed = displayPastSessions - displayAttended; // Added this line to define 'missed'
 
   return (
-    <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 p-6 rounded-3xl h-full flex flex-col justify-between">
+    <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 p-6 rounded-3xl flex flex-col justify-between">
       <div>
         <h3 className="text-muted-foreground text-xs font-mono uppercase tracking-widest mb-4">
           Attendance Rate
         </h3>
 
-        <div className="flex items-center gap-4 mb-4">
-          <div className="relative w-20 h-20 flex items-center justify-center">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="relative w-16 h-16 flex items-center justify-center">
             <svg className="w-full h-full transform -rotate-90">
               <circle
-                cx="40"
-                cy="40"
-                r="36"
+                cx="32"
+                cy="32"
+                r="28"
                 className="stroke-muted/20"
-                strokeWidth="8"
+                strokeWidth="6"
                 fill="transparent"
               />
               <motion.circle
-                cx="40"
-                cy="40"
-                r="36"
+                cx="32"
+                cy="32"
+                r="28"
                 className="stroke-primary"
                 stroke={
                   attendanceRate >= 80
@@ -47,18 +47,18 @@ export default function AttendanceStats({
                     ? "hsl(47.9 95.8% 53.1%)" // yellow-500 equivalent
                     : "hsl(0 84.2% 60.2%)" // red-500 equivalent
                 }
-                strokeWidth="8" // Changed from 12 to 8 to match outer circle
-                strokeDasharray="226.19" // (2 * PI * 36)
-                strokeDashoffset={226.19 - (226.19 * attendanceRate) / 100}
+                strokeWidth="6"
+                strokeDasharray="175.93" // (2 * PI * 28)
+                strokeDashoffset={175.93 - (175.93 * attendanceRate) / 100}
                 strokeLinecap="round"
-                initial={{ strokeDashoffset: 226.19 }}
+                initial={{ strokeDashoffset: 175.93 }}
                 animate={{
-                  strokeDashoffset: 226.19 - (226.19 * attendanceRate) / 100,
+                  strokeDashoffset: 175.93 - (175.93 * attendanceRate) / 100,
                 }}
                 transition={{ duration: 1 }}
               />
             </svg>
-            <span className="absolute text-xl font-bold text-foreground">
+            <span className="absolute text-lg font-bold text-foreground">
               {isNaN(attendanceRate) ? 0 : attendanceRate}%
             </span>
           </div>
