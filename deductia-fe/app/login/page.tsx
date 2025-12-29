@@ -75,9 +75,6 @@ export default function LoginPage() {
                 Deductia
               </span>
             </h1>
-            <p className="text-2xl font-semibold text-zinc-300 mb-6 -mt-4">
-              Pemrograman Dasar
-            </p>
             <p className="text-zinc-400 text-lg leading-relaxed mb-8">
               Manage your attendance, access class materials, and track your
               progress all in one modern platform.

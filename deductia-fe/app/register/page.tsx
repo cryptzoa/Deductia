@@ -92,9 +92,6 @@ export default function RegisterPage() {
                 Deductia
               </span>
             </h1>
-            <p className="text-2xl font-semibold text-zinc-300 mb-6 -mt-4">
-              Pemrograman Dasar
-            </p>
             <p className="text-zinc-400 text-lg leading-relaxed mb-8">
               Create your account to start tracking your attendance and
               accessing learning materials.
