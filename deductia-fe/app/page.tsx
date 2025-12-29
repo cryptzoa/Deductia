@@ -156,10 +156,15 @@ export default function Dashboard() {
 
   // Process Sessions
   const sessions = (rawSessions || []).map((session) => {
-    const weekNum = parseInt(session.week_name.replace(/\D/g, "") || "0");
+    const digits = session.week_name.replace(/\D/g, "");
+    const weekNum = digits ? parseInt(digits) : 0;
+
+    // If it has a number (e.g. "Week 1"), use "Week X". If not (e.g. "UAS"), use original name.
+    const displayTitle = digits ? `Week ${weekNum}` : session.week_name;
+
     return {
       ...session,
-      title: `Week ${weekNum}`, // Force English title
+      title: displayTitle,
       start_time: session.session_date,
       end_time: "23:59",
       room: "Online/Hybrid",

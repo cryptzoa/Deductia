@@ -33,7 +33,13 @@ export default function ActiveSessionCard({
           </span>
           <span className="text-muted-foreground text-sm">|</span>
           <span className="text-muted-foreground text-sm font-mono">
-            Week {session.week_number}
+            {session.week_number > 0
+              ? `Week ${session.week_number}`
+              : new Date(session.start_time).toLocaleDateString("id-ID", {
+                  weekday: "short",
+                  day: "numeric",
+                  month: "short",
+                })}
           </span>
         </div>
 
