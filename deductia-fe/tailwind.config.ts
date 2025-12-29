@@ -9,13 +9,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        zinc: {
-          950: "#09090b",
-          900: "#18181b",
-          // Add other shades if necessary or rely on default Tailwind zinc
-        },
+        // We are using CSS variables in globals.css for v4 dynamic theming
       },
       borderRadius: {
         xl: "1rem",

@@ -68,8 +68,8 @@ export default function RegisterPage() {
   return (
     <div className="flex min-h-screen bg-zinc-950 text-white overflow-hidden relative">
       {/* Abstract Background Blobs - Keep consistent with login */}
-      <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-violet-600/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Main Container */}
       <div className="w-full h-screen grid grid-cols-1 lg:grid-cols-2 relative z-10">
@@ -83,12 +83,12 @@ export default function RegisterPage() {
             transition={{ duration: 0.8 }}
             className="relative z-10 max-w-lg"
           >
-            <div className="mb-8 inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-linear-to-tr from-green-500 to-emerald-500 shadow-2xl shadow-green-500/20">
+            <div className="mb-8 inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-tr from-primary to-secondary shadow-2xl shadow-primary/20">
               <BadgeCheck className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-5xl font-bold mb-6 leading-tight">
               Join <br />
-              <span className="bg-linear-to-r from-green-400 to-emerald-400 text-transparent bg-clip-text">
+              <span className="bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
                 Deductia
               </span>
             </h1>
@@ -109,7 +109,7 @@ export default function RegisterPage() {
           >
             {/* Mobile Header */}
             <div className="lg:hidden text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-linear-to-tr from-green-500 to-emerald-500 mb-4 shadow-lg shadow-green-500/20">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-primary to-secondary mb-4 shadow-lg shadow-primary/20">
                 <BadgeCheck className="w-8 h-8 text-white" />
               </div>
               <h1 className="text-2xl font-bold">Create Account</h1>
@@ -135,12 +135,12 @@ export default function RegisterPage() {
                     Full Name
                   </label>
                   <div className="relative group">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 w-5 h-5 transition-colors group-focus-within:text-green-400" />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5 transition-colors group-focus-within:text-primary" />
                     <input
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full pl-12 pr-4 py-4 bg-zinc-800/50 border border-zinc-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 text-white placeholder:text-zinc-600 transition-all font-medium"
+                      className="w-full pl-12 pr-4 py-4 bg-muted/50 border border-muted-foreground/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 text-foreground placeholder:text-muted-foreground transition-all font-medium"
                       placeholder="Full Name"
                       required
                     />
@@ -153,12 +153,12 @@ export default function RegisterPage() {
                     Email Address
                   </label>
                   <div className="relative group">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 w-5 h-5 transition-colors group-focus-within:text-green-400" />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5 transition-colors group-focus-within:text-primary" />
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-12 pr-4 py-4 bg-zinc-800/50 border border-zinc-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 text-white placeholder:text-zinc-600 transition-all font-medium"
+                      className="w-full pl-12 pr-4 py-4 bg-muted/50 border border-muted-foreground/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 text-foreground placeholder:text-muted-foreground transition-all font-medium"
                       placeholder="email@example.com"
                       required
                     />
@@ -176,7 +176,7 @@ export default function RegisterPage() {
                       type="number"
                       value={nim}
                       onChange={(e) => setNim(e.target.value)}
-                      className="w-full pl-12 pr-4 py-4 bg-zinc-800/50 border border-zinc-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 text-white placeholder:text-zinc-600 transition-all font-medium"
+                      className="w-full pl-12 pr-4 py-4 bg-muted/50 border border-muted-foreground/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 text-foreground placeholder:text-muted-foreground transition-all font-medium"
                       placeholder="NIM"
                       required
                     />
@@ -223,7 +223,7 @@ export default function RegisterPage() {
                       type={showPassword ? "text" : "password"}
                       value={passwordConfirmation}
                       onChange={(e) => setPasswordConfirmation(e.target.value)}
-                      className="w-full pl-12 pr-4 py-4 bg-zinc-800/50 border border-zinc-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 text-white placeholder:text-zinc-600 transition-all font-medium"
+                      className="w-full pl-12 pr-4 py-4 bg-muted/50 border border-muted-foreground/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 text-foreground placeholder:text-muted-foreground transition-all font-medium"
                       placeholder="••••••••"
                       required
                     />

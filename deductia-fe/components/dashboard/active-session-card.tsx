@@ -24,28 +24,30 @@ export default function ActiveSessionCard({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-3xl bg-linear-to-br from-indigo-900/50 to-zinc-900 border border-indigo-500/30 p-1 overflow-hidden relative"
+      className="rounded-3xl bg-gradient-to-br from-primary/20 to-background border border-primary/30 p-1 overflow-hidden relative"
     >
-      <div className="bg-[#0c0c0e] rounded-[22px] p-6 h-full relative z-10">
+      <div className="bg-card rounded-[22px] p-6 h-full relative z-10">
         <div className="flex items-center gap-3 mb-6">
           <span className="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-bold uppercase tracking-wider animate-pulse">
             <span className="w-2 h-2 rounded-full bg-green-500" /> Live Session
           </span>
-          <span className="text-zinc-500 text-sm">|</span>
-          <span className="text-zinc-400 text-sm font-mono">
+          <span className="text-muted-foreground text-sm">|</span>
+          <span className="text-muted-foreground text-sm font-mono">
             Week {session.week_number}
           </span>
         </div>
 
-        <h2 className="text-3xl font-bold text-white mb-2">{session.title}</h2>
-        <p className="text-zinc-400 mb-8 max-w-lg">
+        <h2 className="text-3xl font-bold text-foreground mb-2">
+          {session.title}
+        </h2>
+        <p className="text-muted-foreground mb-8 max-w-lg">
           Session is currently active. Ensure you check in before the time runs
           out.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {isLoadingAttendances && isLoggedIn ? (
-            <div className="py-4 text-center rounded-xl bg-zinc-800/50 text-zinc-500 font-mono text-sm">
+            <div className="py-4 text-center rounded-xl bg-muted/50 text-muted-foreground font-mono text-sm">
               Loading attendance...
             </div>
           ) : hasAttended ? (
@@ -56,7 +58,7 @@ export default function ActiveSessionCard({
           ) : (
             <button
               onClick={onMarkAttendance}
-              className="py-4 px-6 rounded-xl bg-white text-black font-bold hover:bg-zinc-200 transition-colors flex items-center justify-center gap-2"
+              className="py-4 px-6 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
             >
               {isLoggedIn ? "Mark Attendance" : "Login to Attend"}{" "}
               <Terminal className="w-4 h-4 ml-1" />
