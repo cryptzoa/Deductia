@@ -24,7 +24,7 @@ export default function DashboardHeader({
   });
 
   return (
-    <header className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4 border-b border-white/5 pb-6">
+    <header className="relative flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4 border-b border-white/5 pb-6">
       <div>
         <div className="flex items-center gap-2 mb-2">
           <div className="p-1.5 bg-primary/20 rounded border border-primary/30">
@@ -53,7 +53,7 @@ export default function DashboardHeader({
         </p>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="absolute top-0 right-0 md:static flex items-center gap-4">
         <div className="text-right hidden md:block">
           <p className="text-xs text-zinc-500 font-mono">TODAY</p>
           <p
