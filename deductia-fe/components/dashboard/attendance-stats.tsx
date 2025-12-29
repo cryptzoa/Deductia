@@ -18,13 +18,13 @@ export default function AttendanceStats({
   const missed = displayPastSessions - displayAttended; // Added this line to define 'missed'
 
   return (
-    <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 p-6 rounded-3xl flex flex-col justify-between">
+    <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 p-5 rounded-3xl flex flex-col gap-4">
       <div>
-        <h3 className="text-muted-foreground text-xs font-mono uppercase tracking-widest mb-4">
+        <h3 className="text-muted-foreground text-xs font-mono uppercase tracking-widest mb-2">
           Attendance Rate
         </h3>
 
-        <div className="flex items-center gap-3 mb-2">
+        <div className="flex items-center gap-3">
           <div className="relative w-16 h-16 flex items-center justify-center">
             <svg className="w-full h-full transform -rotate-90">
               <circle
@@ -81,7 +81,7 @@ export default function AttendanceStats({
         </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-border space-y-2">
+      <div className="mt-2 pt-3 border-t border-border space-y-1">
         <div className="flex justify-between items-center text-sm text-muted-foreground">
           <span>Total Sessions</span>
           <span className="font-bold text-foreground">
@@ -89,7 +89,7 @@ export default function AttendanceStats({
           </span>
         </div>
         {!isLoggedIn && (
-          <div className="text-xs text-center pt-2 text-muted-foreground italic">
+          <div className="text-xs text-center pt-1 text-muted-foreground italic">
             *Sample data for demo
           </div>
         )}
