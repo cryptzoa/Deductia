@@ -1,181 +1,195 @@
-# Class Companion - Sistem Absensi Digital 🚀
+# 🎓 Class Companion
 
-**Class Companion** solusi modern untuk manajemen kehadiran di lingkungan kampus. Aplikasi ini menggantikan metode absensi manual dengan sistem digital yang praktis, cepat, dan terverifikasi.
-
-Dikembangkan dengan integrasi **Next.js (Frontend)** pada sisi pengguna dan **Laravel (Backend)** yang handal di sisi server, serta dilengkapi **Panel Admin Filament** interaktif untuk mempermudah Dosen dalam mengelola kelas.
+**Class Companion** adalah sistem manajemen absensi dan pembelajaran (LMS) modern yang dirancang khusus untuk perkuliahan. Sistem ini menjembatani komunikasi antara dosen dan mahasiswa melalui pengalaman digital yang mulus, aman, dan real-time.
 
 ---
 
-## ✨ Fitur Utama
+## 🚀 Teknologi yang Digunakan (Tech Stack)
 
-### 🎓 Aplikasi Mahasiswa (Frontend)
+### Backend (API & Admin)
 
-- **Dashboard Informatif**: Interface modern dengan dark mode yang nyaman digunakan.
-- **Sistem Absensi Cerdas**:
-  - 📍 **Verifikasi Lokasi**: Memastikan mahasiswa berada di area kampus menggunakan Geolocation (Geofencing - Radius Checking).
-  - 📸 **Bukti Kehadiran**: Validasi identitas melalui unggah foto selfie realtime.
-  - ⚡ **Real-time Status**: Status kehadiran diperbarui secara instan.
-- **Dukungan Koneksi Lambat**: Sistem fallback cerdas yang memungkinkan absensi tetap berjalan meskipun layanan map mengalami gangguan.
-- **Akses Materi**: Unduh materi perkuliahan (PDF/PPT) secara langsung melalui dashboard.
+- **Framework**: Laravel 12.x
+- **Admin Panel**: Filament PHP 3.x
+- **Database**: MySQL / MariaDB
+- **Autentikasi**: Laravel Sanctum (Token-based)
+- **Containerization**: Docker (PHP 8.3-FPM + Nginx + Supervisor)
+- **Task Queue**: Laravel Queues (Redis/Database) untuk pemrosesan background
+- **Deployment**: Railway
 
-### 🛡️ Panel Dosen (Backend)
+### Frontend (User Interface)
 
-- **Manajemen Kelas (FilamentPHP)**: Dashboard intuitif untuk kebutuhan Dosen:
-  - Membuka atau menutup sesi absensi dengan satu klik.
-  - Memantau daftar hadir mahasiswa secara real-time.
-  - Mengunduh rekapitulasi absensi dalam format Excel/CSV.
-- **Sistem Antrian (Queue)**: Menangani proses berat di latar belakang.
-- **Keamanan Data**:
-  - Proteksi privasi data satu sama lain (IDOR Protection).
-  - Perlindungan terhadap spam dan penyalahgunaan.
-  - Validasi ketat untuk setiap data yang masuk.
+- **Framework**: Next.js 16 (App Router)
+- **Styling**: Tailwind CSS v4
+- **State Management**: TanStack Query (React Query)
+- **HTTP Client**: Axios dengan Interceptors
+- **AI / Face Detection**: face-api.js (Client-side TensorFlow based)
+- **Maps & Location**: Browser Geolocation API
+- **Deployment**: Vercel
 
 ---
 
-## 🛠️ Teknologi (Tech Stack)
+## 🔒 Keamanan & Infrastruktur
 
-| Komponen        | Spesifikasi                                                       |
-| :-------------- | :---------------------------------------------------------------- |
-| **Frontend**    | **Next.js 15** (App Router), Tailwind CSS, Shadcn UI, React Query |
-| **Backend**     | **Laravel 12**, PHP 8.2+, MySQL 8.0                               |
-| **Admin Panel** | **FilamentPHP v3**                                                |
-| **Autentikasi** | **Laravel Sanctum** (SPA Authentication)                          |
-| **Peta**        | **Leaflet / OpenStreetMap**                                       |
-| **Queue**       | **Database Driver**                                               |
+### 1. Autentikasi & Otorisasi
+
+Sistem menggunakan standar keamanan industri untuk melindungi data pengguna:
+
+- **Laravel Sanctum**: Seluruh komunikasi API diamankan menggunakan Bearer Token (Stateful & Stateless support).
+- **Middleware `auth:sanctum`**: Melindungi endpoint sensitif agar hanya bisa diakses oleh user yang login.
+- **Middleware `user.active`**: Layer keamanan tambahan yang memastikan hanya mahasiswa yang status akunnya sudah **DISETUJUI (Verified)** oleh admin yang bisa mengakses dashboard. Akun "Waiting" akan diarahkan ke halaman tunggu.
+- **Password Hashing**: Semua password di-hash menggunakan algoritma Bcrypt yang aman.
+
+### 2. Validasi Input
+
+- **Server-Side Validation**: Seluruh input dari frontend (NIM, file upload, koordinat) divalidasi ketat di backend menggunakan Laravel Validation Rules.
+- **File Sanitization**: Mencegah upload file berbahaya dengan membatasi tipe MIME (gambar/dokumen saja) dan ukuran file.
+
+### 3. Proteksi Absensi (Anti-Fraud)
+
+Untuk mencegah kecurangan (titip absen), sistem menerapkan validasi berlapis:
+
+- **Geo-Fencing (Radius Kampus)**:
+  - Sistem menghitung jarak antara koordinat GPS User dengan koordinat Kampus menggunakan formula Haversine.
+  - Secara default, absensi ditolak jika jarak > 100 meter (dapat dikonfigurasi di Admin Panel).
+- **AI Face Detection**: Menggunakan library **`face-api.js` (TensorFlow.js)** di sisi klien.
+  - Sistem mendeteksi keberadaan wajah manusia secara _real-time_ melalui kamera.
+  - Tombol submit hanya aktif jika AI mengonfirmasi adanya wajah dengan tingkat kepercayaan tertentu.
+  - Mencegah pengambilan gambar benda mati atau foto kosong.
+- **One-Device Enforcement** (Optional Logic): Mencegah satu akun login di banyak device secara bersamaan melalui manajemen token.
+- **Window Time**: Absensi hanya valid jika dilakukan dalam waktu 15 menit sejak sesi dibuka.
 
 ---
 
-## ⚡ Panduan Instalasi (Lokal)
+## 🔗 Integrasi API (Frontend - Backend)
 
-### Persiapan Sistem
+Frontend berkomunikasi dengan Backend melalui **RESTful API**.
 
-Pastikan perangkat Anda telah terinstal:
+### Axios Interceptor
 
-- Node.js 18 atau lebih baru
-- PHP 8.2 atau lebih baru
-- Composer
+Di sisi Frontend (`lib/axios.ts`), saya menggunakan interceptor untuk menangani request secara otomatis:
+
+1.  **Request Interceptor**: Secara otomatis menyisipkan header `Authorization: Bearer <token>` ke setiap request jika token tersimpan di LocalStorage.
+2.  **Response Interceptor**: Menangani error global, seperti jika token kedaluwarsa (`401 Unauthorized`), user akan otomatis di-logout dan diarahkan ke halaman login.
+
+### Struktur Endpoint Utama
+
+- `POST /api/login`: Menukar kredensial (NIM/Password) dengan Auth Token.
+- `GET /api/me`: Mengambil profil user & status verifikasi.
+- `GET /api/sessions`: Mengambil daftar sesi perkuliahan.
+- `POST /api/sessions/{id}/attend`: Endpoint kritis untuk submit absensi (Selfie + Lokasi).
+
+---
+
+## ✨ Fitur & Detail Teknis
+
+### 1. Modul Absensi Cerdas
+
+Proses absensi dirancang untuk akurasi tinggi:
+
+- **Single Submission**: User hanya bisa absen 1 kali per sesi. Cek dilakukan via database query `exists()`.
+- **Background Processing**: Setelah data absensi (foto, koordinat) diterima, backend menjalankan _Job Queue_ (`ProcessAttendanceAddress`) untuk melakukan _Reverse Geocoding_ (mendapatkan alamat jalan dari koordinat) secara asinkron agar respon ke user tetap cepat.
+- **Bukti Kehadiran**: Foto selfie disimpan di storage privat/publik dan ditautkan ke record kehadiran.
+
+### 2. Pusat Materi (Learning Hub)
+
+Dosen dapat mendistribusikan materi dnegan fitur auto-detection:
+
+- **Support Beragam Tipe**: PDF, PPT, dan Link Eksternal (YouTube/Drive).
+- **Smart Type Recognition**: Backend otomatis mendeteksi tipe file berdasarkan ekstensi atau domain link (misal: link youtube dikenali sebagai video), lalu Frontend menampilkan ikon yang sesuai (ikon PDF, Play Button untuk video, dll).
+- **Direct Access**: File disajikan melalui secure URL yang digenerate oleh backend (`asset()`).
+
+### 3. Dashboard Real-time
+
+- **Sesi Aktif**: Menampilkan sesi yang sedang berlangsung dengan indikator "Live".
+- **Progress Bar**: Visualisasi berapa persen pertemuan yang sudah diselesaikan dalam satu semester.
+- **Statistik**: Grafik donat (Chart) yang menghitung persentase kehadiran: `(Hadir / Total Sesi Berlalu) * 100`.
+
+---
+
+## 🛠️ Instalasi & Setup
+
+### Prasyarat
+
+- PHP 8.3+ & Composer
+- Node.js 18+ & NPM
 - MySQL Server
+- Git
 
-### 1. Download Source Code
+### Tahap 1: Backend (Laravel)
 
-```bash
-git clone https://github.com/cryptzoa/Class-Companion.git
-cd Class-Companion
-```
+1.  **Clone & Install Dependencies**
 
-### 2. Konfigurasi Backend (Laravel)
+    ```bash
+    git clone https://github.com/username/class-companion.git
+    cd backend
+    composer install
+    ```
 
-Masuk ke direktori backend, instal dependensi, dan jalankan server.
+2.  **Konfigurasi Environment**
 
-```bash
-cd backend
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
 
-# Instal dependensi PHP
-composer install
+    _Edit `.env` sesuaikan database:_
 
-# Konfigurasi Environment
-cp .env.example .env
-# PENTING: Ubah DB_DATABASE, DB_USERNAME, DB_PASSWORD di .env
+    ```env
+    DB_DATABASE=class_companion
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
 
-# Generate Application Key
-php artisan key:generate
+3.  **Migrasi & Admin User**
 
-# Migrasi Database & Data Awal
-php artisan migrate:fresh --seed
+    ```bash
+    php artisan migrate
+    php artisan make:filament-user # Ikuti prompt untuk buat akun dosen
+    ```
 
-# Konfigurasi Penyimpanan File
-php artisan storage:link
+4.  **Jalankan Server**
+    ```bash
+    php artisan serve
+    php artisan queue:listen # Penting untuk fitur geocoding background
+    ```
 
-# Jalankan Server
-php artisan serve
-# Server akan berjalan di http://localhost:8000
-```
+### Tahap 2: Frontend (Next.js)
 
-### 3. Konfigurasi Frontend (Next.js)
+1.  **Install Dependencies**
 
-Buka terminal baru, masuk ke direktori frontend, dan jalankan aplikasi.
+    ```bash
+    cd ../class-companion-fe
+    npm install
+    ```
 
-```bash
-cd class-companion-fe
+2.  **Konfigurasi Environment**
 
-# Instal dependensi JavaScript
-npm install
+    ```bash
+    cp .env.local.example .env.local
+    ```
 
-# Konfigurasi Environment
-cp .env.example .env.local
-# Pastikan URL API mengarah ke backend: NEXT_PUBLIC_API_URL=http://localhost:8000/api
+    _Isi `.env.local`:_
 
-# Jalankan Server Development
-npm run dev
-# Server akan berjalan di http://localhost:3000
-```
+    ```env
+    NEXT_PUBLIC_API_URL=http://localhost:8000/api
+    ```
 
----
-
-## � Struktur Database
-
-Aplikasi ini menggunakan basis data relasional (MySQL) dengan skema berikut:
-
-### 1. Users (`users`)
-
-Menyimpan data pengguna (Dosen dan Mahasiswa).
-
-- `id` (PK): Primary Key.
-- `name`: Nama lengkap.
-- `email`: Email (Unique).
-- `nim`: Nomor Induk Mahasiswa / NIP (Unique).
-- `role`: Peran pengguna (`dosen` atau `mahasiswa`).
-- `is_active`: Status aktivasi akun (Verifikasi admin).
-
-### 2. Attendance Sessions (`attendance_sessions`)
-
-Sesi perkuliahan yang dibuat oleh Dosen.
-
-- `id` (PK)
-- `week_name`: Nama pertemuan (misal: "Pertemuan 1").
-- `session_date`: Tanggal sesi.
-- `attendance_open_at`: Waktu absensi dibuka (Timestamp).
-
-### 3. Attendances (`attendances`)
-
-Rekaman absensi mahasiswa.
-
-- `user_id` (FK -> users)
-- `attendance_session_id` (FK -> attendance_sessions)
-- `selfie_path`: Lokasi file foto selfie.
-- `latitude` & `longitude`: Koordinat lokasi saat absen.
-- `address`: Alamat hasil Reverse Geocoding.
-- `face_detected`: Validasi apakah wajah terdeteksi AI.
-- `submitted_at`: Waktu submit.
+3.  **Jalankan Frontend**
+    ```bash
+    npm run dev
+    ```
+    Buka `http://localhost:3000` di browser.
 
 ---
 
-## 🔌 Dokumentasi API
+## 👨‍💻 Informasi Pengembang
 
-Backend menyediakan RESTful API yang aman untuk konsumsi Frontend.
+Tugas Akhir / UAS Pemrograman Pemrograman Dasar 2
 
-### Authentication
-
-| Method | Endpoint        | Deskripsi                        |
-| :----- | :-------------- | :------------------------------- |
-| `POST` | `/api/login`    | Masuk aplikasi & dapatkan Token. |
-| `POST` | `/api/register` | Pendaftaran akun baru.           |
-| `POST` | `/api/logout`   | Hapus sesi token.                |
-| `GET`  | `/api/me`       | Ambil data profile user login.   |
-
-### Attendance (Absensi)
-
-| Method | Endpoint                    | Deskripsi                              |
-| :----- | :-------------------------- | :------------------------------------- |
-| `GET`  | `/api/sessions`             | List sesi perkuliahan aktif.           |
-| `POST` | `/api/sessions/{id}/attend` | Submit absensi (Upload Foto + Lokasi). |
-| `GET`  | `/api/my-attendances`       | History kehadiran user login.          |
-| `GET`  | `/api/materials`            | List materi perkuliahan.               |
+- **Nama**: RAYHAN SOEANGKUPON LUBIS
+- **NIM**: 2025806013
+- **Kelas**: TI 2
+- **Prodi**: TEKNOLOGI INFORMASI
+- **Dosen Pengampu**: Rintis Mardika Sunarto, S.Kom., M.Kom.
 
 ---
-
-## 👨‍💻 Pengembang
-
-- **Rayhan Soeangkupon Lubis**
-
-_Made with passion for UAS Pemrograman Dasar 2_ ✨

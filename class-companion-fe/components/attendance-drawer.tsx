@@ -4,12 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Camera, MapPin, CheckCircle2 } from "lucide-react";
 import { clsx } from "clsx";
-import api from "@/lib/axios"; // Add import
-// import { useRouter } from 'next/navigation';
-
+import api from "@/lib/axios";
 import { Session } from "@/types/api";
-
-import { useQueryClient } from "@tanstack/react-query"; // Add import
+import { useQueryClient } from "@tanstack/react-query";
+import * as faceapi from "face-api.js";
 
 interface AttendanceDrawerProps {
   isOpen: boolean;
@@ -24,7 +22,7 @@ export default function AttendanceDrawer({
   onClose,
   session,
 }: AttendanceDrawerProps) {
-  const queryClient = useQueryClient(); // Initialize client
+  const queryClient = useQueryClient();
   const [settings, setSettings] = useState<{
     geofencing_enabled: boolean;
   } | null>(null);
@@ -33,6 +31,7 @@ export default function AttendanceDrawer({
   const [detection, setDetection] = useState(false);
   const [location, setLocation] = useState<string>("");
   const videoRef = useRef<HTMLVideoElement>(null);
+  const modelsLoaded = useRef(false);
 
   // Fetch settings when drawer opens
   useEffect(() => {
@@ -45,6 +44,22 @@ export default function AttendanceDrawer({
         .catch((err) => console.error("Failed to fetch settings", err));
     }
   }, [isOpen]);
+
+  // Load Face API Models
+  useEffect(() => {
+    const loadModels = async () => {
+      if (!modelsLoaded.current) {
+        try {
+          await faceapi.loadTinyFaceDetectorModel("/models");
+          modelsLoaded.current = true;
+          console.log("FaceAPI models loaded");
+        } catch (error) {
+          console.error("Failed to load FaceAPI models", error);
+        }
+      }
+    };
+    loadModels();
+  }, []);
 
   // Reset state when opening
   useEffect(() => {
@@ -87,11 +102,8 @@ export default function AttendanceDrawer({
     });
   };
 
-  /* 
-    CAMERA ERROR STATE 
-    If null, no error. If string, shows error message.
-  */
   const [cameraError, setCameraError] = useState<string | null>(null);
+  const detectionInterval = useRef<NodeJS.Timeout | null>(null);
 
   const startCamera = async () => {
     setCameraError(null);
@@ -105,11 +117,12 @@ export default function AttendanceDrawer({
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        // Start detection loop once video is playing
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current?.play();
+          startDetection();
+        };
       }
-      // Mock AI Detection
-      setTimeout(() => {
-        setDetection(true);
-      }, 2000);
     } catch (err: any) {
       console.error("Camera error:", err);
       // Determine user-friendly message
@@ -130,7 +143,40 @@ export default function AttendanceDrawer({
     }
   };
 
+  const startDetection = () => {
+    if (detectionInterval.current) clearInterval(detectionInterval.current);
+
+    detectionInterval.current = setInterval(async () => {
+      if (
+        videoRef.current &&
+        !videoRef.current.paused &&
+        !videoRef.current.ended &&
+        modelsLoaded.current
+      ) {
+        try {
+          const detections = await faceapi.detectAllFaces(
+            videoRef.current,
+            new faceapi.TinyFaceDetectorOptions()
+          );
+
+          if (detections.length > 0) {
+            setDetection(true);
+          } else {
+            setDetection(false);
+          }
+        } catch (err) {
+          // silent fail on detection error
+        }
+      }
+    }, 500); // Check every 500ms
+  };
+
   const stopCamera = () => {
+    if (detectionInterval.current) {
+      clearInterval(detectionInterval.current);
+      detectionInterval.current = null;
+    }
+
     if (videoRef.current && videoRef.current.srcObject) {
       const stream = videoRef.current.srcObject as MediaStream;
       stream.getTracks().forEach((track) => track.stop());
@@ -198,6 +244,7 @@ export default function AttendanceDrawer({
     const formData = new FormData();
     formData.append("latitude", lat.toString());
     formData.append("longitude", lng.toString());
+    // Send basic true/false based on our client side check (though we validated it before allowing capture)
     formData.append("face_detected", "true");
     formData.append("selfie", photoBlob, "attendance.jpg");
 
@@ -272,7 +319,15 @@ export default function AttendanceDrawer({
                       className="w-full h-full object-cover"
                     />
                     {/* Face Scanning UI Overlay */}
-                    <div className="absolute inset-0 border-[3px] border-indigo-500 rounded-2xl opacity-50 scanner-animation" />
+                    <div
+                      className={clsx(
+                        "absolute inset-0 border-[3px] rounded-2xl transition-colors duration-300",
+                        detection
+                          ? "border-green-500"
+                          : "border-indigo-500 opacity-50 scanner-animation"
+                      )}
+                    />
+
                     {detection && (
                       <motion.div
                         initial={{ scale: 0 }}
