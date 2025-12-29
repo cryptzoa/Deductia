@@ -215,7 +215,7 @@ Dosen dapat mendistribusikan materi dnegan fitur auto-detection:
 
 ## 👨‍💻 Developer
 
-Tugas Akhir / UAS Pemrograman Pemrograman Dasar 2
+Tugas Akhir / UAS Pemrograman Dasar 2
 
 - **Nama**: RAYHAN SOEANGKUPON LUBIS
 - **NIM**: 2025806013
