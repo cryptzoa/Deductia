@@ -2,6 +2,10 @@
 
 **Deductia** adalah sistem manajemen absensi dan pembelajaran (LMS) modern yang dirancang khusus untuk perkuliahan. Sistem ini menjembatani komunikasi antara dosen dan mahasiswa melalui pengalaman digital yang mulus, aman, dan real-time.
 
+![User Dashboard](Deductia/assets/Dashboard/Users/Mhs-Dashboard.png)
+
+
+
 ---
 
 ## 🚀 Teknologi yang Digunakan (Tech Stack)
