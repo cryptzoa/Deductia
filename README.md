@@ -73,22 +73,48 @@ Di sisi Frontend (`lib/axios.ts`), saya menggunakan interceptor untuk menangani 
 
 ### Struktur Endpoint Utama
 
-- `POST /api/login`: Menukar kredensial (NIM/Password) dengan Auth Token.
-- `GET /api/me`: Mengambil profil user & status verifikasi.
-- `GET /api/sessions`: Mengambil daftar sesi perkuliahan.
-- `POST /api/sessions/{id}/attend`: Endpoint kritis untuk submit absensi (Selfie + Lokasi).
+### Struktur Endpoint Utama & Payload
+
+#### 1. Submit Absensi (`POST /api/sessions/{id}/attend`)
+
+Endpoint ini menangani validasi kompleks dari sisi backend.
+
+- **Header**: `Authorization: Bearer <token>`, `Content-Type: multipart/form-data`
+- **Body (Form Data)**:
+  - `selfie`: File gambar (JPG/PNG).
+  - `latitude`: Lintang lokasi user (Float).
+  - `longitude`: Bujur lokasi user (Float).
+  - `face_detected`: `true` (Boolean/String) - Flag hasil deteksi AI dari frontend.
+
+#### 2. Get User Profile (`GET /api/me`)
+
+- **Response**: Detail user termasuk `status` (active/waiting).
+
+#### 3. Get Materials (`GET /api/materials`)
+
+- **Response**: List materi dengan auto-detected `file_type` (pdf, video, link).
 
 ---
 
 ## ✨ Fitur & Detail Teknis
 
-### 1. Modul Absensi Cerdas
+### 1. Modul Absensi Cerdas & AI Implementation
 
-Proses absensi dirancang untuk akurasi tinggi:
+Sistem menggabungkan Geolocation API dan Client-side AI untuk validasi maksimal.
 
-- **Single Submission**: User hanya bisa absen 1 kali per sesi. Cek dilakukan via database query `exists()`.
-- **Background Processing**: Setelah data absensi (foto, koordinat) diterima, backend menjalankan _Job Queue_ (`ProcessAttendanceAddress`) untuk melakukan _Reverse Geocoding_ (mendapatkan alamat jalan dari koordinat) secara asinkron agar respon ke user tetap cepat.
-- **Bukti Kehadiran**: Foto selfie disimpan di storage privat/publik dan ditautkan ke record kehadiran.
+#### a. Face Detection Workflow (`face-api.js`)
+
+Sistem tidak mengirim gambar ke server untuk dianalisis (menghemat bandwidth & server load), melainkan melakukan **Edge Computing** di browser user:
+
+1.  **Model Loading**: Saat komponen Absensi dibuka, sistem meload model `TinyFaceDetector` (~190KB) dari folder `/public/models`.
+2.  **Detection Loop**: Video stream kamera di-scan setiap 500ms.
+3.  **State Management**: Jika `confidance_score > 0.5`, UI membuka kunci tombol "Capture".
+4.  **Submission**: Parameter `face_detected=true` dikirim ke Backend sebagai tanda validasi lokal berhasil.
+
+#### b. Validasi Lokasi & Server
+
+1.  **Single Submission**: Cek unique constraint di database `exists()`.
+2.  **Background Processing**: Job Queue (`ProcessAttendanceAddress`) melakukan Reverse Geocoding via eksternal API secara asinkron.
 
 ### 2. Pusat Materi (Learning Hub)
 
