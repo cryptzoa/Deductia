@@ -1,7 +1,11 @@
 # 🎓 Deductia
 
-**Deductia** adalah sistem manajemen absensi dan pembelajaran (LMS) modern yang dirancang khusus untuk perkuliahan. Sistem ini menjembatani komunikasi antara dosen dan mahasiswa melalui pengalaman digital yang mulus, aman, dan real-time.
+**Deductia** sistem manajemen absensi dan pembelajaran (LMS) modern yang dirancang khusus untuk perkuliahan. Sistem ini menjembatani komunikasi antara dosen dan mahasiswa melalui pengalaman digital yang mulus, aman, dan real-time.
 
+
+![Login Page](/assets/login-page.png)
+
+![User Dashboard](/assets/Dashboard/Users/Mhs-Dashboard.png)
 
 
 
@@ -214,7 +218,7 @@ Dosen dapat mendistribusikan materi dnegan fitur auto-detection:
 
 ## 👨‍💻 Developer
 
-Tugas Akhir / UAS Pemrograman Pemrograman Dasar 2
+Tugas Akhir / UAS Pemrograman Dasar 2
 
 - **Nama**: RAYHAN SOEANGKUPON LUBIS
 - **NIM**: 2025806013
