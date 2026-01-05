@@ -21,7 +21,7 @@ export default function SessionDetailModal({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -29,7 +29,7 @@ export default function SessionDetailModal({
             onClick={onClose}
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
           >
-            {/* Modal */}
+            {}
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -37,7 +37,7 @@ export default function SessionDetailModal({
               onClick={(e) => e.stopPropagation()}
               className="bg-zinc-900 border border-white/10 rounded-3xl w-full max-w-md overflow-hidden relative"
             >
-              {/* Header */}
+              {}
               <div className="p-6 border-b border-white/5 flex justify-between items-start">
                 <div>
                   <h2 className="text-xl font-bold text-white mb-1">
@@ -53,9 +53,9 @@ export default function SessionDetailModal({
                 </button>
               </div>
 
-              {/* Body */}
+              {}
               <div className="p-6 space-y-6">
-                {/* Time & Status */}
+                {}
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-3 rounded-xl bg-primary/20 text-primary">
                     <Calendar className="w-5 h-5" />
@@ -78,7 +78,7 @@ export default function SessionDetailModal({
                   </div>
                 </div>
 
-                {/* Material Section */}
+                {}
                 {session.material ? (
                   <div className="flex items-center gap-4">
                     <div className="p-3 rounded-xl bg-secondary/20 text-secondary">
@@ -116,7 +116,7 @@ export default function SessionDetailModal({
                   </div>
                 )}
 
-                {/* Status Section */}
+                {}
                 <div className="flex items-center gap-3 mb-2">
                   <div className="p-3 rounded-xl bg-muted text-muted-foreground">
                     <Clock className="w-5 h-5" />
@@ -131,7 +131,7 @@ export default function SessionDetailModal({
                   </div>
                 </div>
 
-                {/* Room/Location - Mock if not in API yet */}
+                {}
                 <div className="flex items-center gap-4">
                   <div className="p-3 rounded-xl bg-orange-500/20 text-orange-400">
                     <MapPin className="w-6 h-6" />
@@ -145,7 +145,7 @@ export default function SessionDetailModal({
                 </div>
               </div>
 
-              {/* Footer */}
+              {}
               <div className="p-6 pt-0">
                 <button
                   onClick={onClose}

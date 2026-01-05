@@ -50,7 +50,7 @@ export default function RegisterPage() {
 
       setSuccess("Account created! Please wait for admin verification.");
 
-      // Delay redirect to login
+      
       setTimeout(() => {
         router.push("/login");
       }, 2000);
@@ -67,13 +67,13 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-screen bg-zinc-950 text-white overflow-hidden relative">
-      {/* Abstract Background Blobs - Keep consistent with login */}
+      {}
       <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Main Container */}
+      {}
       <div className="w-full h-screen grid grid-cols-1 lg:grid-cols-2 relative z-10">
-        {/* Left Side: Hero Section (Desktop) */}
+        {}
         <div className="hidden lg:flex flex-col justify-center items-center p-12 relative">
           <div className="absolute inset-0 bg-zinc-900/30 backdrop-blur-3xl" />
 
@@ -99,7 +99,7 @@ export default function RegisterPage() {
           </motion.div>
         </div>
 
-        {/* Right Side: Register Form */}
+        {}
         <div className="flex flex-col justify-center items-center p-6 sm:p-12 lg:bg-zinc-900/20 lg:backdrop-blur-sm border-l border-white/5 overflow-y-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -107,7 +107,7 @@ export default function RegisterPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="w-full max-w-md space-y-8 my-auto py-10"
           >
-            {/* Mobile Header */}
+            {}
             <div className="lg:hidden text-center mb-8">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-primary to-secondary mb-4 shadow-lg shadow-primary/20">
                 <BadgeCheck className="w-8 h-8 text-white" />
@@ -129,7 +129,7 @@ export default function RegisterPage() {
 
             <form onSubmit={handleRegister} className="space-y-6">
               <div className="space-y-4">
-                {/* Full Name */}
+                {}
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-zinc-300 ml-1">
                     Full Name
@@ -147,7 +147,7 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                {/* Email - New Field */}
+                {}
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-zinc-300 ml-1">
                     Email Address
@@ -165,7 +165,7 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                {/* NIM */}
+                {}
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-zinc-300 ml-1">
                     NIM
@@ -183,7 +183,7 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                {/* Password */}
+                {}
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-zinc-300 ml-1">
                     Password
@@ -212,7 +212,7 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                {/* Password Confirmation */}
+                {}
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-zinc-300 ml-1">
                     Confirm Password

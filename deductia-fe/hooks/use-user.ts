@@ -15,7 +15,7 @@ export function useUser({ redirect = true } = {}) {
   } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
-      // Prevent unnecessary 401s if no token exists
+      
       if (typeof window !== "undefined" && !localStorage.getItem("token")) {
         return null;
       }
@@ -23,7 +23,7 @@ export function useUser({ redirect = true } = {}) {
       return data.data;
     },
     retry: false,
-    enabled: true, // Always run, but conditional logic inside queryFn handles guest state
+    enabled: true, 
   });
 
   useEffect(() => {

@@ -31,8 +31,8 @@ class AttendanceResource extends Resource
                             ->image()
                             ->disk('public')
                             ->visibility('public')
-                            ->disabled() // Read-only
-                            ->dehydrated(false) // Don't save on edit
+                            ->disabled() 
+                            ->dehydrated(false) 
                             ->columnSpanFull(),
                     ]),
                 Forms\Components\Section::make('Informasi Mahasiswa')
@@ -108,9 +108,9 @@ class AttendanceResource extends Resource
                     ->icon('heroicon-o-arrow-down-tray')
                     ->action(function (Tables\Actions\BulkAction $action, \Illuminate\Database\Eloquent\Collection $records) {
                         return response()->streamDownload(function () use ($records) {
-                            echo "\xEF\xBB\xBF"; // UTF-8 BOM
+                            echo "\xEF\xBB\xBF"; 
                             $handle = fopen('php://output', 'w');
-                            fwrite($handle, "sep=,\n"); // Force Excel to use comma
+                            fwrite($handle, "sep=,\n"); 
                             fputcsv($handle, ['NIM', 'Nama', 'Waktu', 'Keterangan']);
 
                             foreach ($records as $record) {

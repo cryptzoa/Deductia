@@ -7,15 +7,13 @@ use Illuminate\Support\Facades\Log;
 
 class ReverseGeocodingService
 {
-    /**
-     * Convert coordinates to human-readable address using OpenStreetMap Nominatim.
-     */
+    
     public function getAddress(float $lat, float $lng): ?string
     {
         try {
             $url = "https://nominatim.openstreetmap.org/reverse";
             
-            $response = Http::timeout(5) // 5 seconds timeout
+            $response = Http::timeout(5) 
                 ->withHeaders([
                     'User-Agent' => 'ClassCompanion/1.0 (rayhan@classcompanion.com)'
                 ])->get($url, [
@@ -26,7 +24,7 @@ class ReverseGeocodingService
                     'addressdetails' => 1,
                 ]);
 
-            /** @var \Illuminate\Http\Client\Response $response */
+            
             if ($response->successful()) {
                 $displayName = $response->json('display_name');
                 return $displayName ? (string) $displayName : null;
@@ -38,7 +36,7 @@ class ReverseGeocodingService
                 'response' => $response->body()
             ]);
 
-            // Fallback: Return coordinates
+            
             return "Lat: {$lat}, Lng: {$lng}";
         } catch (\Exception $e) {
             Log::error('Reverse geocoding error', [
@@ -47,17 +45,15 @@ class ReverseGeocodingService
                 'error' => $e->getMessage()
             ]);
 
-            // Fallback: Return coordinates on error
+            
             return "Lat: {$lat}, Lng: {$lng}";
         }
     }
 
-    /**
-     * Calculate distance between two coordinates using Haversine formula.
-     */
+    
     public function calculateDistance(float $lat1, float $lng1, float $lat2, float $lng2): float
     {
-        $earthRadius = 6371000; // meters
+        $earthRadius = 6371000; 
 
         $latFrom = deg2rad($lat1);
         $lonFrom = deg2rad($lng1);

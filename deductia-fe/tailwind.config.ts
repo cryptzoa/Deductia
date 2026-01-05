@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // We are using CSS variables in globals.css for v4 dynamic theming
+        
       },
       borderRadius: {
         xl: "1rem",

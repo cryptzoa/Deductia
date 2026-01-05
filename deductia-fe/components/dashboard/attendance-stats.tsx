@@ -15,7 +15,7 @@ export default function AttendanceStats({
   displayAttended,
   isLoggedIn,
 }: AttendanceStatsProps) {
-  const missed = displayPastSessions - displayAttended; // Added this line to define 'missed'
+  const missed = displayPastSessions - displayAttended; 
 
   return (
     <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 p-6 rounded-3xl flex flex-col justify-between">
@@ -42,13 +42,13 @@ export default function AttendanceStats({
                 className="stroke-primary"
                 stroke={
                   attendanceRate >= 80
-                    ? "hsl(142.1 76.2% 36.3%)" // green-500 equivalent
+                    ? "hsl(142.1 76.2% 36.3%)" 
                     : attendanceRate >= 50
-                    ? "hsl(47.9 95.8% 53.1%)" // yellow-500 equivalent
-                    : "hsl(0 84.2% 60.2%)" // red-500 equivalent
+                    ? "hsl(47.9 95.8% 53.1%)" 
+                    : "hsl(0 84.2% 60.2%)" 
                 }
-                strokeWidth="8" // Changed from 12 to 8 to match outer circle
-                strokeDasharray="226.19" // (2 * PI * 36)
+                strokeWidth="8" 
+                strokeDasharray="226.19" 
                 strokeDashoffset={226.19 - (226.19 * attendanceRate) / 100}
                 strokeLinecap="round"
                 initial={{ strokeDashoffset: 226.19 }}

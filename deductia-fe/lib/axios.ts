@@ -9,7 +9,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  // Check for token in localStorage (or cookies if you prefer)
+  
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("token");
     if (token) {

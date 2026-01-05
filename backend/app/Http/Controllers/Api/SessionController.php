@@ -9,9 +9,7 @@ use Illuminate\Http\Request;
 
 class SessionController extends Controller
 {
-    /**
-     * Get all published materials for mahasiswa.
-     */
+    
     public function materials(Request $request)
     {
         $limit = $request->query('limit', 10);
@@ -21,7 +19,7 @@ class SessionController extends Controller
             ->take($limit)
             ->get()
             ->map(function ($material) {
-                // Determine file type
+                
                 $type = 'link';
                 if ($material->file_path) {
                     $extension = pathinfo($material->file_path, PATHINFO_EXTENSION);
@@ -35,7 +33,7 @@ class SessionController extends Controller
                         $type = 'other';
                     }
                 } elseif ($material->link) {
-                    // Check for video links
+                    
                     if (str_contains($material->link, 'youtube.com') || str_contains($material->link, 'youtu.be')) {
                         $type = 'video';
                     }
@@ -49,7 +47,7 @@ class SessionController extends Controller
                     'link' => $material->link,
                     'created_at' => $material->created_at->format('Y-m-d H:i:s'),
                     'file_type' => $type,
-                    // 'session_title' => ... (Skipping complex relation for now to prioritize stability)
+                    
                 ];
             });
 
@@ -58,9 +56,7 @@ class SessionController extends Controller
         ]);
     }
 
-    /**
-     * Get all attendance sessions.
-     */
+    
     public function sessions(Request $request)
     {
         $limit = $request->query('limit', 10);
@@ -90,9 +86,7 @@ class SessionController extends Controller
         ]);
     }
 
-    /**
-     * Get a single session detail.
-     */
+    
     public function show(AttendanceSession $session)
     {
         return response()->json([

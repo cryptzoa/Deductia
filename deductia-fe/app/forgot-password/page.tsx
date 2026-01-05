@@ -38,13 +38,13 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="flex min-h-screen bg-zinc-950 text-white overflow-hidden relative">
-      {/* Background Gradients */}
+      {}
       <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Main Container */}
+      {}
       <div className="w-full h-screen grid grid-cols-1 lg:grid-cols-2 relative z-10">
-        {/* Left Side: Hero */}
+        {}
         <div className="hidden lg:flex flex-col justify-center items-center p-12 relative">
           <div className="absolute inset-0 bg-zinc-900/30 backdrop-blur-3xl" />
           <motion.div
@@ -64,7 +64,7 @@ export default function ForgotPasswordPage() {
           </motion.div>
         </div>
 
-        {/* Right Side: Form */}
+        {}
         <div className="flex flex-col justify-center items-center p-6 sm:p-12 lg:bg-zinc-900/20 lg:backdrop-blur-sm border-l border-white/5">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}

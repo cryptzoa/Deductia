@@ -7,9 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    
     public function up(): void
     {
         Schema::create('settings', function (Blueprint $table) {
@@ -19,7 +17,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Insert default settings
+        
         DB::table('settings')->insert([
             ['key' => 'geofencing_enabled', 'value' => 'true', 'created_at' => now(), 'updated_at' => now()],
             ['key' => 'campus_latitude', 'value' => '-6.200000', 'created_at' => now(), 'updated_at' => now()],
@@ -28,9 +26,7 @@ return new class extends Migration
         ]);
     }
 
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
         Schema::dropIfExists('settings');

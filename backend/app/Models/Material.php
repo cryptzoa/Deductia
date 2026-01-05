@@ -25,17 +25,13 @@ class Material extends Model
         ];
     }
 
-    /**
-     * Get attendance sessions that use this material.
-     */
+    
     public function attendanceSessions(): HasMany
     {
         return $this->hasMany(AttendanceSession::class);
     }
 
-    /**
-     * Scope for published materials.
-     */
+    
     public function scopePublished($query)
     {
         return $query->where('is_published', true);

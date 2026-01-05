@@ -8,10 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserIsActive
 {
-    /**
-     * Handle an incoming request.
-     * Ensure the authenticated user has been approved by Dosen.
-     */
+    
     public function handle(Request $request, Closure $next): Response
     {
         if (!$request->user() || !$request->user()->is_active) {

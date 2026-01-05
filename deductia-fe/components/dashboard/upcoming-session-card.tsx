@@ -22,7 +22,7 @@ export default function UpcomingSessionCard({
       animate={{ opacity: 1, y: 0 }}
       className="bg-slate-900/40 backdrop-blur-xl border border-white/5 p-6 rounded-3xl relative overflow-hidden group min-h-[300px] flex flex-col justify-between"
     >
-      {/* Background Pattern */}
+      {}
       <div className="absolute top-0 right-0 p-20 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all duration-700" />
       <Cpu className="absolute bottom-8 right-8 w-24 h-24 text-white/5 rotate-12" />
 
@@ -30,7 +30,7 @@ export default function UpcomingSessionCard({
         <ul className="flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-widest mb-4">
           <li className="list-none flex items-center gap-2">
             {" "}
-            {/* Wrapper to avoid li inside div if needed, structure looks cleaner */}
+            {}
             <span className="w-2 h-2 bg-primary rounded-sm" /> NEXT ON SCHEDULE
           </li>
         </ul>
@@ -65,7 +65,7 @@ export default function UpcomingSessionCard({
         )}
       </div>
 
-      {/* Progress Bar (Decorative) */}
+      {}
       <div className="mt-8">
         <div className="flex justify-between text-xs font-mono text-muted-foreground mb-2">
           <span>SEMESTER PROGRESS</span>

@@ -15,7 +15,7 @@ import {
 } from "@/types/api";
 import { useRouter } from "next/navigation";
 
-// Imported Dashboard Components
+
 import DashboardHeader from "@/components/dashboard/header";
 import ActiveSessionCard from "@/components/dashboard/active-session-card";
 import UpcomingSessionCard from "@/components/dashboard/upcoming-session-card";
@@ -24,12 +24,12 @@ import AttendanceStats from "@/components/dashboard/attendance-stats";
 import CourseInfoCard from "@/components/dashboard/course-info-card";
 import StudentPortalTeaser from "@/components/dashboard/student-portal-teaser";
 
-// --- MOCK DATA FOR DEMO MODE ---
+
 const MOCK_SESSIONS: Session[] = [
   {
     id: 1,
     week_name: "Week 1",
-    session_date: new Date().toISOString(), // Today
+    session_date: new Date().toISOString(), 
     attendance_open: true,
     attendance_open_at: new Date().toISOString(),
     created_at: new Date().toISOString(),
@@ -38,7 +38,7 @@ const MOCK_SESSIONS: Session[] = [
   {
     id: 2,
     week_name: "Week 2",
-    session_date: new Date(Date.now() + 86400000 * 7).toISOString(), // Next week
+    session_date: new Date(Date.now() + 86400000 * 7).toISOString(), 
     attendance_open: false,
     attendance_open_at: null,
     created_at: new Date().toISOString(),
@@ -84,7 +84,7 @@ export default function Dashboard() {
   const [isAttendanceOpen, setIsAttendanceOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
-  // Disable redirect for demo mode
+  
   const {
     user,
     isLoading: isUserLoading,
@@ -118,14 +118,14 @@ export default function Dashboard() {
 
   const isLoggedIn = !!user;
 
-  // --- DATA FETCHING ---
+  
   const { data: realSessions } = useQuery({
     queryKey: ["sessions"],
     queryFn: async () => {
       const { data } = await api.get<SessionsResponse>("/sessions");
       return data.data;
     },
-    enabled: isLoggedIn, // Only fetch if logged in
+    enabled: isLoggedIn, 
   });
 
   const { data: realRecentMaterials } = useQuery({
@@ -148,18 +148,18 @@ export default function Dashboard() {
     }
   );
 
-  // --- MERGE DATA LOGIC ---
-  // Use MOCK data if not logged in, otherwise use REAL data
+  
+  
   const rawSessions = isLoggedIn ? realSessions : MOCK_SESSIONS;
   const rawMaterials = isLoggedIn ? realRecentMaterials : MOCK_MATERIALS;
-  const rawAttendances = isLoggedIn ? realMyAttendances : isLoggedIn ? [] : []; // Guests don't show "checked in" initially to encourage them to try interaction or shows "demo checked in"
+  const rawAttendances = isLoggedIn ? realMyAttendances : isLoggedIn ? [] : []; 
 
-  // Process Sessions
+  
   const sessions = (rawSessions || []).map((session) => {
     const digits = session.week_name.replace(/\D/g, "");
     const weekNum = digits ? parseInt(digits) : 0;
 
-    // If it has a number (e.g. "Week 1"), use "Week X". If not (e.g. "UAS"), use original name.
+    
     const displayTitle = digits ? `Week ${weekNum}` : session.week_name;
 
     return {
@@ -184,42 +184,42 @@ export default function Dashboard() {
 
   const attendancesList = Array.isArray(rawAttendances) ? rawAttendances : [];
 
-  // --- LOGIC ---
+  
   const activeSession = sessions.find((s) => s.is_open_for_attendance === true);
 
-  // For demo: if guest, simulate not attended yet to show the button
+  
   const hasAttended = isLoggedIn
     ? attendancesList.some(
         (a) => activeSession && a.session.id === activeSession.id
       )
     : false;
 
-  // Find next upcoming session
+  
   const upcomingSession = sessions.find(
     (s) =>
       !s.is_open_for_attendance &&
       new Date(s.session_date) >= new Date(new Date().setHours(0, 0, 0, 0))
   );
 
-  // Stats
+  
   const pastSessionsCount =
     sessions.filter((s) => new Date(s.session_date) <= new Date()).length || 1;
   const attendedCount = attendancesList.length || 0;
 
-  // Fake stats for demo if guest
+  
   const displayPastSessions = isLoggedIn ? pastSessionsCount : 5;
   const displayAttended = isLoggedIn ? attendedCount : 4;
 
   const rawRate = (displayAttended / (displayPastSessions || 1)) * 100;
   const attendanceRate = Math.min(Math.round(rawRate), 100);
 
-  // Semester Progress
+  
   const currentWeek =
     activeSession?.week_number || upcomingSession?.week_number || 1;
   const totalWeeks = 14;
   const progressPercent = Math.min((currentWeek / totalWeeks) * 100, 100);
 
-  // Action Handlers for Demo
+  
   const handleMarkAttendanceCheck = () => {
     if (!isLoggedIn) {
       router.push("/login");
@@ -236,11 +236,11 @@ export default function Dashboard() {
     setIsDetailOpen(true);
   };
 
-  // Check if we have a token (implying we should be logged in) but data isn't ready
+  
   const hasToken = isMounted && localStorage.getItem("token");
   const showLoading = isUserLoading || (hasToken && !user && !isError);
 
-  // Prevent flash of demo content while checking auth
+  
   if (showLoading) {
     return (
       <main className="min-h-screen bg-[#09090b] flex items-center justify-center">
@@ -256,7 +256,7 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30">
-      {/* Decorative Background: Coding Pattern */}
+      {}
       <div
         className="fixed inset-0 pointer-events-none opacity-[0.03]"
         style={{
@@ -266,7 +266,7 @@ export default function Dashboard() {
         }}
       ></div>
 
-      {/* DEMO BANNER */}
+      {}
       {!isLoggedIn && !isUserLoading && (
         <div className="bg-primary/20 border-b border-primary/30 text-slate-300 px-4 py-2 text-center text-sm font-medium">
           Note: You are viewing a{" "}
@@ -284,9 +284,9 @@ export default function Dashboard() {
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* LEFT COLUMN: Main Status (Hero) */}
+          {}
           <div className="lg:col-span-2 space-y-6">
-            {/* ACTIVE SESSION CARD */}
+            {}
             {activeSession ? (
               <ActiveSessionCard
                 session={activeSession}
@@ -305,14 +305,14 @@ export default function Dashboard() {
               />
             )}
 
-            {/* MATERIALS SECTION (Compact List) */}
+            {}
             <MaterialsList
               materials={rawMaterials || []}
               isLoggedIn={isLoggedIn}
             />
           </div>
 
-          {/* RIGHT COLUMN: Stats & Info */}
+          {}
           <div className="space-y-6">
             <AttendanceStats
               attendanceRate={attendanceRate}
@@ -323,7 +323,7 @@ export default function Dashboard() {
 
             <CourseInfoCard />
 
-            {/* LOGIN TEASER (Only for guests) */}
+            {}
             {!isLoggedIn && <StudentPortalTeaser onLogin={handleLogin} />}
           </div>
         </div>

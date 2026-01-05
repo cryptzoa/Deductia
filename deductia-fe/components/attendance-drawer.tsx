@@ -33,7 +33,7 @@ export default function AttendanceDrawer({
   const videoRef = useRef<HTMLVideoElement>(null);
   const modelsLoaded = useRef(false);
 
-  // Fetch settings when drawer opens
+  
   useEffect(() => {
     if (isOpen) {
       api
@@ -45,7 +45,7 @@ export default function AttendanceDrawer({
     }
   }, [isOpen]);
 
-  // Load Face API Models
+  
   useEffect(() => {
     const loadModels = async () => {
       if (!modelsLoaded.current) {
@@ -61,7 +61,7 @@ export default function AttendanceDrawer({
     loadModels();
   }, []);
 
-  // Reset state when opening
+  
   useEffect(() => {
     if (isOpen) {
       setStep("camera");
@@ -117,7 +117,7 @@ export default function AttendanceDrawer({
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        // Start detection loop once video is playing
+        
         videoRef.current.onloadedmetadata = () => {
           videoRef.current?.play();
           startDetection();
@@ -125,7 +125,7 @@ export default function AttendanceDrawer({
       }
     } catch (err: any) {
       console.error("Camera error:", err);
-      // Determine user-friendly message
+      
       if (
         err.name === "NotAllowedError" ||
         err.name === "PermissionDeniedError"
@@ -165,10 +165,10 @@ export default function AttendanceDrawer({
             setDetection(false);
           }
         } catch (err) {
-          // silent fail on detection error
+          
         }
       }
-    }, 500); // Check every 500ms
+    }, 500); 
   };
 
   const stopCamera = () => {
@@ -185,7 +185,7 @@ export default function AttendanceDrawer({
 
   const handleNextStep = async () => {
     if (step === "camera") {
-      // 1. Capture Photo
+      
       const capturedBlob = await capturePhoto();
       if (!capturedBlob) {
         alert("Failed to capture photo. Please try again.");
@@ -195,34 +195,34 @@ export default function AttendanceDrawer({
 
       stopCamera();
 
-      // CHECK SETTINGS: If geofencing disabled, skip location
+      
       if (settings && !settings.geofencing_enabled) {
         setStep("submit");
-        // Immediately submit with captured blob and dummy coords
+        
         submitAttendance(0, 0, capturedBlob);
         return;
       }
 
       setStep("location");
 
-      // Real Geolocation
+      
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const { latitude, longitude } = position.coords;
-            setLocation(`${latitude}, ${longitude}`); // For display
-            // Store lat/long in ref or state for submission
+            setLocation(`${latitude}, ${longitude}`); 
+            
           },
           (error) => {
             alert("Location access needed.");
-            setStep("camera"); // Go back
+            setStep("camera"); 
           }
         );
       } else {
         alert("Geolocation not supported.");
       }
     } else if (step === "location") {
-      // Parse current location string or use stored values
+      
       const [lat, lng] = location.split(",").map((s) => parseFloat(s.trim()));
       submitAttendance(lat || 0, lng || 0, photo);
     }
@@ -244,7 +244,7 @@ export default function AttendanceDrawer({
     const formData = new FormData();
     formData.append("latitude", lat.toString());
     formData.append("longitude", lng.toString());
-    // Send basic true/false based on our client side check (though we validated it before allowing capture)
+    
     formData.append("face_detected", "true");
     formData.append("selfie", photoBlob, "attendance.jpg");
 
@@ -254,7 +254,7 @@ export default function AttendanceDrawer({
           "Content-Type": "multipart/form-data",
         },
       });
-      // Invalidate queries to update UI immediately
+      
       queryClient.invalidateQueries({ queryKey: ["myAttendances"] });
       queryClient.invalidateQueries({ queryKey: ["sessions"] });
 
@@ -270,7 +270,7 @@ export default function AttendanceDrawer({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -279,7 +279,7 @@ export default function AttendanceDrawer({
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
           />
 
-          {/* Drawer */}
+          {}
           <motion.div
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
@@ -287,7 +287,7 @@ export default function AttendanceDrawer({
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-white/10 rounded-t-3xl p-6 z-50 h-[80vh] md:h-[600px] flex flex-col"
           >
-            {/* Handle */}
+            {}
             <div className="w-12 h-1.5 bg-zinc-700 rounded-full mx-auto mb-6" />
 
             <div className="flex justify-between items-center mb-6">
@@ -303,7 +303,7 @@ export default function AttendanceDrawer({
             </div>
 
             <div className="flex-1 flex flex-col items-center justify-center relative overflow-hidden">
-              {/* Step 1: Camera */}
+              {}
               {step === "camera" && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -318,7 +318,7 @@ export default function AttendanceDrawer({
                       muted
                       className="w-full h-full object-cover"
                     />
-                    {/* Face Scanning UI Overlay */}
+                    {}
                     <div
                       className={clsx(
                         "absolute inset-0 border-[3px] rounded-2xl transition-colors duration-300",
@@ -350,7 +350,7 @@ export default function AttendanceDrawer({
                 </motion.div>
               )}
 
-              {/* Step 2: Location */}
+              {}
               {step === "location" && (
                 <motion.div
                   initial={{ opacity: 0, x: 50 }}
@@ -371,7 +371,7 @@ export default function AttendanceDrawer({
                 </motion.div>
               )}
 
-              {/* Step 3: Submitting */}
+              {}
               {step === "submit" && (
                 <motion.div className="flex flex-col items-center gap-4">
                   <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
@@ -379,7 +379,7 @@ export default function AttendanceDrawer({
                 </motion.div>
               )}
 
-              {/* Step 4: Success */}
+              {}
               {step === "success" && (
                 <motion.div
                   initial={{ scale: 0.5, opacity: 0 }}
@@ -397,7 +397,7 @@ export default function AttendanceDrawer({
               )}
             </div>
 
-            {/* Footer Actions */}
+            {}
             <div className="mt-6 pt-4 border-t border-white/5">
               {step === "camera" && (
                 <div className="w-full space-y-3">
@@ -411,7 +411,7 @@ export default function AttendanceDrawer({
                   {cameraError && (
                     <button
                       onClick={() => {
-                        // Manual retry
+                        
                         startCamera();
                       }}
                       className="w-full py-3 bg-muted hover:bg-muted/80 rounded-xl font-medium text-sm transition-all text-muted-foreground"

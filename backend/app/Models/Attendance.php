@@ -31,17 +31,13 @@ class Attendance extends Model
         ];
     }
 
-    /**
-     * Get the user that owns this attendance.
-     */
+    
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the attendance session for this attendance.
-     */
+    
     public function attendanceSession(): BelongsTo
     {
         return $this->belongsTo(AttendanceSession::class);

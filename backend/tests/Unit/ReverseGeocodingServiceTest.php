@@ -36,12 +36,12 @@ class ReverseGeocodingServiceTest extends TestCase
 
     public function test_returns_coordinates_fallback_when_exception_occurs(): void
     {
-        // No fake defined will cause exception if not handled, 
-        // OR we can explicitly throw exception if we want closer simulation
-        // but Http::fake prevents real requests. 
-        // To simulate exception we can do nothing in fake or use Sequence.
-        // Let's rely on the previous test for fallback logic.
-        // But let's test the specific timeout/connection error simulation
+        
+        
+        
+        
+        
+        
         
          Http::fake(function ($request) {
             throw new \Exception('Connection timeout');

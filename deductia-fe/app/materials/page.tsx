@@ -10,8 +10,8 @@ import {
   PlayCircle,
   Search,
   Filter,
-  Presentation, // Added Presentation icon
-  Video, // Added Video icon
+  Presentation, 
+  Video, 
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
@@ -24,7 +24,7 @@ export default function MaterialsPage() {
   const { user } = useUser();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState<
-    "all" | "pdf" | "video" | "link" | "ppt" // Added 'ppt' to selectedType
+    "all" | "pdf" | "video" | "link" | "ppt" 
   >("all");
 
   const { data: materials, isLoading } = useQuery({
@@ -35,7 +35,7 @@ export default function MaterialsPage() {
     },
   });
 
-  // Filter Data
+  
   const filteredMaterials = materials?.filter((item) => {
     const matchesSearch =
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -46,7 +46,7 @@ export default function MaterialsPage() {
     if (selectedType === "link") {
       matchesType = !!item.link;
     } else if (selectedType === "ppt") {
-      // Added 'ppt' condition
+      
       matchesType = item.file_type === "ppt";
     } else if (selectedType !== "all") {
       matchesType = item.file_type === selectedType;
@@ -58,15 +58,15 @@ export default function MaterialsPage() {
   const getIcon = (type: string | undefined) => {
     if (type === "pdf") return <FileText className="w-6 h-6 text-primary" />;
     if (type === "ppt")
-      return <Presentation className="w-6 h-6 text-primary" />; // Added PPT icon condition
-    if (type === "video") return <Video className="w-6 h-6 text-primary" />; // Changed to Video icon
+      return <Presentation className="w-6 h-6 text-primary" />; 
+    if (type === "video") return <Video className="w-6 h-6 text-primary" />; 
     if (type === "link") return <LinkIcon className="w-6 h-6 text-primary" />;
-    return <FileText className="w-6 h-6 text-primary" />; // Covers Other
+    return <FileText className="w-6 h-6 text-primary" />; 
   };
 
   return (
     <div className="min-h-screen bg-zinc-950 p-4 md:p-8 pb-20">
-      {/* Header */}
+      {}
       <div className="max-w-5xl mx-auto mb-8">
         <button
           onClick={() => router.push("/")}
@@ -87,7 +87,7 @@ export default function MaterialsPage() {
         </div>
       </div>
 
-      {/* Search & Filter Bar */}
+      {}
       <div className="max-w-5xl mx-auto sticky top-4 z-20 mb-8">
         <div className="glass-card p-2 rounded-2xl flex flex-col md:flex-row gap-2">
           <div className="relative flex-1">
@@ -118,10 +118,10 @@ export default function MaterialsPage() {
         </div>
       </div>
 
-      {/* Content Grid */}
+      {}
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {isLoading ? (
-          // Skeletons
+          
           Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}

@@ -7,12 +7,12 @@ export default function Footer() {
 
   return (
     <footer className="relative border-t border-white/5 bg-[#09090b] pt-16 pb-8 mt-20">
-      {/* Decorative Gradient */}
+      {}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-          {/* Brand Column */}
+          {}
           <div className="col-span-1 md:col-span-2 space-y-4">
             <div className="flex items-center gap-2">
               <div className="p-1.5 bg-primary/20 rounded border border-primary/30">
@@ -28,7 +28,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Legal / Social */}
+          {}
           <div>
             <h3 className="text-white font-bold mb-4 text-sm">Connect</h3>
             <ul className="space-y-3 text-sm text-zinc-500">
@@ -66,7 +66,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        {}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-zinc-600 font-mono">
             © {currentYear} Deductia Inc. All rights reserved.

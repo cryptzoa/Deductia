@@ -14,16 +14,16 @@ export interface Material {
   description?: string;
   file_url?: string;
   link?: string;
-  // Helper for frontend logic
+  
   file_type?: "pdf" | "video" | "link" | "ppt" | "other";
   session_title?: string;
-  created_at?: string; // Add created_at for sorting
+  created_at?: string; 
 }
 
 export interface Session {
   id: number;
-  week_name: string; // "Pertemuan 1"
-  session_date: string; // "2023-12-25"
+  week_name: string; 
+  session_date: string; 
   material?: Material;
   attendance_open: boolean;
   attendance_open_at?: string | null;
@@ -31,13 +31,13 @@ export interface Session {
   created_at?: string;
   updated_at?: string;
 
-  // Legacy/UI fields (optional or mapped)
+  
   title?: string;
   start_time?: string;
   end_time?: string;
   room?: string;
-  is_open_for_attendance?: boolean; // mapped from attendance_open
-  week_number?: number; // mapped from week_name
+  is_open_for_attendance?: boolean; 
+  week_number?: number; 
   status?: "upcoming" | "ongoing" | "finished";
 }
 

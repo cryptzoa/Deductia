@@ -50,13 +50,13 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen bg-zinc-950 text-white overflow-hidden relative">
-      {/* Abstract Background Blobs */}
+      {}
       <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Main Container */}
+      {}
       <div className="w-full h-screen grid grid-cols-1 lg:grid-cols-2 relative z-10">
-        {/* Left Side: Hero Section (Hidden on Mobile) */}
+        {}
         <div className="hidden lg:flex flex-col justify-center items-center p-12 relative">
           <div className="absolute inset-0 bg-zinc-900/30 backdrop-blur-3xl" />
 
@@ -90,7 +90,7 @@ export default function LoginPage() {
           </motion.div>
         </div>
 
-        {/* Right Side: Login Form */}
+        {}
         <div className="flex flex-col justify-center items-center p-6 sm:p-12 lg:bg-zinc-900/20 lg:backdrop-blur-sm border-l border-white/5">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -98,7 +98,7 @@ export default function LoginPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="w-full max-w-md space-y-8"
           >
-            {/* Mobile Header (Visible only on mobile) */}
+            {}
             <div className="lg:hidden text-center mb-8">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-primary to-secondary mb-4 shadow-lg shadow-primary/20">
                 <GraduationCap className="w-8 h-8 text-white" />

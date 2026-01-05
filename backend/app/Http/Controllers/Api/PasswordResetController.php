@@ -12,14 +12,12 @@ use Illuminate\Validation\ValidationException;
 
 class PasswordResetController extends Controller
 {
-    /**
-     * Send a reset link to the given user.
-     */
+    
     public function sendResetLink(Request $request)
     {
         $request->validate(['email' => 'required|email']);
 
-        // We will send the link to this email.
+        
         $status = Password::broker()->sendResetLink(
             $request->only('email')
         );
@@ -29,9 +27,7 @@ class PasswordResetController extends Controller
             : response()->json(['message' => __($status)], 400);
     }
 
-    /**
-     * Reset the user's password.
-     */
+    
     public function reset(Request $request)
     {
         $request->validate([

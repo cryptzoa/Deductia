@@ -4,7 +4,7 @@ import { CheckCircle2, Terminal } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface ActiveSessionCardProps {
-  session: any; // Using any for the extended session type for simplicity, or I can define it properly
+  session: any; 
   isLoadingAttendances: boolean;
   isLoggedIn: boolean;
   hasAttended: boolean;

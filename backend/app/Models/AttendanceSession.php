@@ -27,25 +27,19 @@ class AttendanceSession extends Model
         ];
     }
 
-    /**
-     * Get the material for this session (optional).
-     */
+    
     public function material(): BelongsTo
     {
         return $this->belongsTo(Material::class);
     }
 
-    /**
-     * Get all attendances for this session.
-     */
+    
     public function attendances(): HasMany
     {
         return $this->hasMany(Attendance::class);
     }
 
-    /**
-     * Check if attendance is currently open (within 15 minutes).
-     */
+    
     public function isAttendanceOpen(): bool
     {
         if (!$this->attendance_open_at) {
@@ -58,9 +52,7 @@ class AttendanceSession extends Model
         return $minutesPassed >= -15 && $minutesPassed <= 0;
     }
 
-    /**
-     * Get remaining minutes for attendance.
-     */
+    
     public function getRemainingMinutesAttribute(): ?int
     {
         if (!$this->attendance_open_at) {

@@ -11,10 +11,10 @@ function ResetPasswordContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  // Handle case where URL is HTML-encoded (e.g. &amp;email= -> key is "amp;email")
+  
   const rawEmail =
     searchParams.get("email") || searchParams.get("amp;email") || "";
-  // In case the value itself is still url encoded or has artifacts
+  
   const email = decodeURIComponent(rawEmail);
 
   const [password, setPassword] = useState("");
@@ -59,7 +59,7 @@ function ResetPasswordContent() {
     }
   };
 
-  // Removed the strict check. If token is missing, we show error inline or block form.
+  
   if (!token) {
     return (
       <div className="text-center text-muted-foreground">
@@ -178,12 +178,12 @@ function ResetPasswordContent() {
 export default function ResetPasswordPage() {
   return (
     <div className="flex min-h-screen bg-background text-foreground overflow-hidden relative">
-      {/* Background Gradients */}
+      {}
       <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="w-full h-screen grid grid-cols-1 lg:grid-cols-2 relative z-10">
-        {/* Left Side: Hero */}
+        {}
         <div className="hidden lg:flex flex-col justify-center items-center p-12 relative">
           <div className="absolute inset-0 bg-background/30 backdrop-blur-3xl" />
           <motion.div

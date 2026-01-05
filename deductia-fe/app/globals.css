@@ -55,21 +55,21 @@
 
 @layer base {
   :root {
-    /* Executive Teal Theme - Dark Mode Default */
-    --background: 240 10% 3.9%; /* zinc-950 */
+    
+    --background: 240 10% 3.9%; 
     --foreground: 0 0% 98%;
 
-    --card: 240 10% 3.9%; /* zinc-950 */
+    --card: 240 10% 3.9%; 
     --card-foreground: 0 0% 98%;
 
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    /* TEAL-500 Main Brand */
+    
     --primary: 173 58% 39%;
     --primary-foreground: 144.9 80.4% 10%;
 
-    /* EMERALD Accent */
+    
     --secondary: 158 64% 52%;
     --secondary-foreground: 144.9 80.4% 10%;
 

@@ -14,9 +14,7 @@ class ProcessAttendanceAddress implements ShouldQueue
     protected $lat;
     protected $lng;
 
-    /**
-     * Create a new job instance.
-     */
+    
     public function __construct($attendanceId, $lat, $lng)
     {
         $this->attendanceId = $attendanceId;
@@ -24,9 +22,7 @@ class ProcessAttendanceAddress implements ShouldQueue
         $this->lng = $lng;
     }
 
-    /**
-     * Execute the job.
-     */
+    
     public function handle(ReverseGeocodingService $geoService): void
     {
         $attendance = \App\Models\Attendance::find($this->attendanceId);

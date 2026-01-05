@@ -16,16 +16,16 @@ return Application::configure(basePath: dirname(__DIR__))
             'user.active' => \App\Http\Middleware\EnsureUserIsActive::class,
         ]);
 
-        // Trust all proxies (Railway load balancer)
+        
         $middleware->trustProxies(at: '*');
         
-        // Enable CORS for API routes
+        
         $middleware->api(prepend: [
             \Illuminate\Http\Middleware\HandleCors::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        
     })->create();
 
 

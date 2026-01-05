@@ -41,8 +41,8 @@ class AuthenticationTest extends TestCase
             'password' => 'wrong-password',
         ]);
 
-        // Expect 422 for validation error (ValidationException) or custom error. 
-        // Logic throws ValidationException which renders as 422 usually.
+        
+        
         $response->assertStatus(422); 
     }
 

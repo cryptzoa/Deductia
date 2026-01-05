@@ -18,14 +18,12 @@ class AttendanceController extends Controller
         $this->geocodingService = $geocodingService;
     }
 
-    /**
-     * Submit attendance for a session.
-     */
+    
     public function attend(Request $request, AttendanceSession $session)
     {
         $user = $request->user();
 
-        // Check if already attended
+        
         $existingAttendance = Attendance::where('user_id', $user->id)
             ->where('attendance_session_id', $session->id)
             ->first();
@@ -36,7 +34,7 @@ class AttendanceController extends Controller
             ], 400);
         }
 
-        // Check if attendance is open (15-minute window)
+        
         if (!$session->isAttendanceOpen()) {
             if (!$session->attendance_open_at) {
                 return response()->json([
@@ -48,7 +46,7 @@ class AttendanceController extends Controller
             ], 400);
         }
 
-        // Validate request
+        
         $validated = $request->validate([
             'selfie' => 'required|image|max:5120',
             'latitude' => 'required|numeric|between:-90,90',
@@ -56,10 +54,10 @@ class AttendanceController extends Controller
             'face_detected' => 'required|in:true,false,1,0',
         ]);
         
-        // Convert face_detected string to boolean
+        
         $validated['face_detected'] = filter_var($validated['face_detected'], FILTER_VALIDATE_BOOLEAN);
 
-        // Check geo-fencing if enabled
+        
         if (Setting::getBool('geofencing_enabled', true)) {
             $campusLat = Setting::getFloat('campus_latitude');
             $campusLng = Setting::getFloat('campus_longitude');
@@ -79,13 +77,13 @@ class AttendanceController extends Controller
             }
         }
 
-        // Store selfie
+        
         $selfiePath = $request->file('selfie')->store('selfies', 'public');
 
-        // Address initially null or placeholder
+        
         $address = "Menunggu verifikasi lokasi...";
 
-        // Create attendance
+        
         $attendance = Attendance::create([
             'user_id' => $user->id,
             'attendance_session_id' => $session->id,
@@ -97,7 +95,7 @@ class AttendanceController extends Controller
             'submitted_at' => now(),
         ]);
 
-        // Dispatch background job to fetch address from API
+        
         \App\Jobs\ProcessAttendanceAddress::dispatch(
             $attendance->id,
             $validated['latitude'],
@@ -115,9 +113,7 @@ class AttendanceController extends Controller
         ], 201);
     }
 
-    /**
-     * Get attendance history for current user.
-     */
+    
     public function myAttendances(Request $request)
     {
         $attendances = Attendance::with('attendanceSession')
@@ -142,9 +138,7 @@ class AttendanceController extends Controller
         ]);
     }
 
-    /**
-     * Get geo-fencing settings for frontend.
-     */
+    
     public function settings()
     {
         return response()->json([

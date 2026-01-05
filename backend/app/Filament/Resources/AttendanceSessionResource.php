@@ -94,10 +94,10 @@ class AttendanceSessionResource extends Resource
                     ->icon('heroicon-o-lock-closed')
                     ->color('danger')
                     ->action(function (AttendanceSession $record): void {
-                        // Set to far past to ensure it's closed (setting null might be cleaner, 
-                        // but setting to past keeps "history" that it WAS open.
-                        // However, isAttendanceOpen() checks 15 min window.
-                        // Setting to null effectively closes it.
+                        
+                        
+                        
+                        
                         $record->update(['attendance_open_at' => null]);
                         Notification::make()
                             ->title('Absensi ditutup!')
@@ -108,7 +108,7 @@ class AttendanceSessionResource extends Resource
                     ->requiresConfirmation()
                     ->modalHeading('Tutup Absensi?')
                     ->modalDescription('Mahasiswa tidak akan bisa absen lagi untuk sesi ini.')
-                    // Only show if it is currently open
+                    
                     ->visible(fn (AttendanceSession $record): bool => $record->isAttendanceOpen()),
                 Tables\Actions\Action::make('view_attendances')
                     ->label('Lihat Absen')

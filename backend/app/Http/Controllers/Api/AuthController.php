@@ -10,9 +10,7 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    /**
-     * Register a new mahasiswa account.
-     */
+    
     public function register(Request $request)
     {
         $validated = $request->validate([
@@ -42,9 +40,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    /**
-     * Login user and return Sanctum token.
-     */
+    
     public function login(Request $request)
     {
         $validated = $request->validate([
@@ -60,17 +56,17 @@ class AuthController extends Controller
             ]);
         }
 
-        // Check if account is active (Gatekeeper)
+        
         if (!$user->is_active) {
             return response()->json([
                 'message' => 'Akun belum diverifikasi oleh Dosen. Silakan tunggu approval.'
             ], 403);
         }
 
-        // One-Device Enforcement: Revoke all previous tokens
+        
         $user->tokens()->delete();
 
-        // Create token
+        
         $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
@@ -88,9 +84,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Logout user (revoke token).
-     */
+    
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
@@ -100,9 +94,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Get current authenticated user.
-     */
+    
     public function me(Request $request)
     {
         $user = $request->user();
